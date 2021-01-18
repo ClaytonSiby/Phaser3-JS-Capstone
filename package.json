@@ -6,10 +6,18 @@
   "author": "Clayton",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --open"
+  },
   "devDependencies": {
     "babel-core": "6",
     "babel-loader": "^7.0.0",
-    "webpack": "^3.0.0"
+    "babel-preset-env": "^1.7.0",
+    "copy-webpack-plugin": "^4.5.1",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.0.0"
   },
   "dependencies": {
     "phaser": "^3.0.0"
