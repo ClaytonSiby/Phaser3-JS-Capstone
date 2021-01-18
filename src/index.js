@@ -1,11 +1,12 @@
 import Phaser from 'phaser';
 
-import { SimpleScene } from './scenes/simple-scene';
+import Sample from './scenes/simple-scene';
 
 const gameConfig = {
-    width: 680,
-    height: 400,
-    scene: SimpleScene
+  width: 680,
+  height: 400,
+  scene: Sample.SimpleScene,
 };
 
-new Phaser.Game(gameConfig);
+// eslint-disable-next-line no-unused-vars
+const game = new Phaser.Game(gameConfig);
