@@ -1,5 +1,8 @@
 body {
-  background: rgb(0, 70, 128);
+  background: url('./level1_bg.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   margin: 0px;
   padding: 0px;
 }
