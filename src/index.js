@@ -1,12 +1,21 @@
 import Phaser from 'phaser';
-
-import Sample from './scenes/simple-scene';
+import PreloaderScene from './scenes/PreloaderScene';
+// import OptionsScene from './scenes/OptionsScene';
+// import MenuScene from './scenes/MenuScene';
+import Level1Scene from './scenes/Level1Scene.js';
+// import GameInstructionsScene from './scenes/GameInstructionsScene';
 
 const gameConfig = {
-  width: 680,
-  height: 400,
-  scene: Sample.SimpleScene,
-};
+  type: Phaser.AUTO,
+  width: 1000,
+  height: 600,
+  scene: [
+    PreloaderScene,
+    Level1Scene,
+    // MenuScene,
+    // OptionsScene,
+    // GameInstructionsScene,
+  ]
+}
 
-// eslint-disable-next-line no-unused-vars
-const game = new Phaser.Game(gameConfig);
+new Phaser.Game(gameConfig);
