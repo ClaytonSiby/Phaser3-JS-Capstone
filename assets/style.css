@@ -1,0 +1,14 @@
+body {
+  background: rgb(0, 70, 128);
+  margin: 0px;
+  padding: 0px;
+}
+
+canvas {
+  display: block;
+  margin: 0;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+}
