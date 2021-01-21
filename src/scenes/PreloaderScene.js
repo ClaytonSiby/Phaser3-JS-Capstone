@@ -1,18 +1,18 @@
 class PreloaderScene extends Phaser.Scene {
-  constructor () {
-    super('PreloaderScene')
+  constructor() {
+    super('PreloaderScene');
   }
 
-  preload(){
-    this.load.image('logo', 'assets/player.png')
+  preload() {
+    this.load.image('logo', 'assets/player.png');
   }
 
-  create(){
+  create() {
     this.add.image(440, 400, 'logo').setOrigin(0, 0);
     this.input.on('pointerdown', () => {
-      this.scene.start('Level1Scene')
-    })
+      this.scene.start('Level1Scene');
+    });
   }
 }
 
-export default PreloaderScene
+export default PreloaderScene;

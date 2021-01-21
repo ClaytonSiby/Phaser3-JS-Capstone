@@ -1,7 +1,7 @@
 class MenuScene extends Phaser.Scene {
-    constructor() {
-        super('MenuScene');
-    }
+  constructor() {
+    super('MenuScene');
+  }
 }
 
 export default MenuScene;

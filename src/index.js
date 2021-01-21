@@ -1,8 +1,8 @@
-import Phaser from 'phaser'
-import PreloaderScene from './scenes/PreloaderScene'
+import Phaser from 'phaser';
+import PreloaderScene from './scenes/PreloaderScene';
 // import OptionsScene from './scenes/OptionsScene';
 // import MenuScene from './scenes/MenuScene';
-import Level1Scene from './scenes/Level1Scene.js'
+import Level1Scene from './scenes/Level1Scene.js';
 // import GameInstructionsScene from './scenes/GameInstructionsScene';
 
 const gameConfig = {
@@ -13,10 +13,10 @@ const gameConfig = {
     default: 'arcade',
     arcade: {
       gravity: { y: 500 },
-      enableBody: true
-    }
+      enableBody: true,
+    },
   },
-  scene: [Level1Scene]
-}
+  scene: [Level1Scene],
+};
 
-new Phaser.Game(gameConfig)
+new Phaser.Game(gameConfig);
