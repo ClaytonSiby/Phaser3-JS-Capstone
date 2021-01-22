@@ -34,16 +34,17 @@ class Level1Scene extends Phaser.Scene {
       { x: 1000, y: 580 }
     ]
 
-    this.add.text(10, 25, `Score: ${this.gameState.score}`, {
-      fill: '#0f0',
-      fontSize: 23
+    this.gameState.scoreText = this.add.text(10, 25, `Score: ${this.gameState.score}`, {
+      fill: '#37c3be',
+      fontSize: 23,
+      fontWeight: 900,
     })
 
     bgCoordinates.map(bg_cord => {
       this.add.image(bg_cord.x, bg_cord.y, 'level1_bg')
     })
 
-    this.gameState.player = this.physics.add.sprite(225, 440, 'player').setScale(.7);
+    this.gameState.player = this.physics.add.sprite(225, 440, 'player').setScale(.6);
     this.gameState.cursors = this.input.keyboard.createCursorKeys()
 
     const platforms = this.physics.add.staticGroup()
@@ -59,8 +60,9 @@ class Level1Scene extends Phaser.Scene {
     const bugs = this.physics.add.group()
     const bugList = ['green_bug', 'green_bug', 'green_bug']
 
+    // generate & display bugs randomly on the game screen.
     function bugGenerator () {
-      const xCoordinate = Math.random() * this.width
+      const xCoordinate = Math.random() * 1000
       let randomBug = bugList[Math.floor(Math.random() * 3)]
 
       bugs.create(xCoordinate, 10, randomBug)
@@ -75,6 +77,7 @@ class Level1Scene extends Phaser.Scene {
 
     const bugGeneratorLoop = this.time.addEvent(bugObject)
 
+    // create animations on the player sprite
     this.anims.create({
       key: 'run',
       frames: this.anims.generateFrameNumbers('player', {
@@ -88,6 +91,25 @@ class Level1Scene extends Phaser.Scene {
       frames: this.anims.generateFrameNames('player', {
         start: 4,
         end: 5
+      })
+    })
+
+    // add a collider object between bugs & the platforms. Destroy the bug as it hits the platforms.
+    this.physics.add.collider(bugs, platforms, bug => {
+      bug.destroy();
+
+      this.gameState.score += 10;
+      this.gameState.scoreText.setText(`Score: ${this.gameState.score}`);
+    })
+
+    // collide a bug & the player then its game over
+    this.physics.add.collider(this.gameState.player, bugs, () => {
+      bugGeneratorLoop.destroy();
+
+      this.physics.pause();
+      this.input.on('pointerup', () => {
+        this.gameState.score = 0;
+        this.scene.restart();
       })
     })
   }
