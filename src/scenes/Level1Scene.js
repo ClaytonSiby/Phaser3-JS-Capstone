@@ -13,6 +13,8 @@ class Level1Scene extends Phaser.Scene {
     })
     this.load.image('level_one_platform', 'assets/platform.png')
     this.load.image('level1_bg', 'assets/level1_bg.png')
+    this.load.audio('game-music', ['assets/game-sound.mp3'])
+    this.load.audio('game_over_sound', ['assets/gameover.wav'])
   }
 
   create () {
@@ -34,17 +36,28 @@ class Level1Scene extends Phaser.Scene {
       { x: 1000, y: 580 }
     ]
 
-    this.gameState.scoreText = this.add.text(10, 25, `Score: ${this.gameState.score}`, {
-      fill: '#37c3be',
-      fontSize: 23,
-      fontWeight: 900,
-    })
+    this.gameOnSound = this.sound.add('game-music', { loop: true })
+    this.gameOverSound = this.sound.add('game_over_sound', { loop: false })
+    this.gameOnSound.play()
+
+    this.gameState.scoreText = this.add.text(
+      10,
+      25,
+      `Score: ${this.gameState.score}`,
+      {
+        fill: '#37c3be',
+        fontSize: 23,
+        fontWeight: 900
+      }
+    )
 
     bgCoordinates.map(bg_cord => {
       this.add.image(bg_cord.x, bg_cord.y, 'level1_bg')
     })
 
-    this.gameState.player = this.physics.add.sprite(225, 440, 'player').setScale(.6);
+    this.gameState.player = this.physics.add
+      .sprite(225, 440, 'player')
+      .setScale(0.6)
     this.gameState.cursors = this.input.keyboard.createCursorKeys()
 
     const platforms = this.physics.add.staticGroup()
@@ -96,20 +109,22 @@ class Level1Scene extends Phaser.Scene {
 
     // add a collider object between bugs & the platforms. Destroy the bug as it hits the platforms.
     this.physics.add.collider(bugs, platforms, bug => {
-      bug.destroy();
+      bug.destroy()
 
-      this.gameState.score += 10;
-      this.gameState.scoreText.setText(`Score: ${this.gameState.score}`);
+      this.gameState.score += 10
+      this.gameState.scoreText.setText(`Score: ${this.gameState.score}`)
     })
 
     // collide a bug & the player then its game over
     this.physics.add.collider(this.gameState.player, bugs, () => {
-      bugGeneratorLoop.destroy();
+      bugGeneratorLoop.destroy()
 
-      this.physics.pause();
+      this.gameOnSound.stop()
+      this.gameOverSound.play()
+      this.physics.pause()
       this.input.on('pointerup', () => {
-        this.gameState.score = 0;
-        this.scene.restart();
+        this.gameState.score = 0
+        this.scene.restart()
       })
     })
   }

@@ -45,6 +45,7 @@ class Level2Scene extends Phaser.Scene {
 
     const platforms = this.physics.add.staticGroup();
     this.physics.add.collider(this.gameState.player, platforms);
+    this.gameState.player.setCollideWorldBounds(true);
 
     platformPositions.map(plat => {
       platforms.create(plat.x, plat.y, 'platform').setScale(.9);
