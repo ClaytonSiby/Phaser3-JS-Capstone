@@ -18,7 +18,7 @@ const gameConfig = {
       enableBody: true,
     },
   },
-  scene: [Level3Scene],
+  scene: [Level1Scene, Level2Scene, Level3Scene],
 };
 
 new Phaser.Game(gameConfig);
