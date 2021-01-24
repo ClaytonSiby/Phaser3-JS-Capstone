@@ -1,8 +1,8 @@
-class Level1Scene extends Phaser.Scene {
+import BaseScene from './BaseScene';
+
+class Level1Scene extends BaseScene {
   constructor () {
     super('Level1Scene')
-
-    this.gameState = { score: 0 }
   }
 
   preload () {
@@ -137,7 +137,7 @@ class Level1Scene extends Phaser.Scene {
         this.scene.start('Level2Scene')
       })
     })
-  }
+  };
 
   update () {
     const gameState = this.gameState

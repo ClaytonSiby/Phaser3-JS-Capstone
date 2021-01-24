@@ -1,4 +1,7 @@
-class PlayerScene extends Phaser.Scene {
+import BaseScene from './BaseScene';
+
+
+class PlayerScene extends BaseScene {
   constructor () {
     super('PlayerScene')
   }
