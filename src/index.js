@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import PreloaderScene from './scenes/PreloaderScene';
+import PlayerScene from './scenes/PlayerScene';
 // import OptionsScene from './scenes/OptionsScene';
 // import MenuScene from './scenes/MenuScene';
 import Level1Scene from './scenes/Level1Scene';
@@ -14,11 +14,15 @@ const gameConfig = {
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 200 },
+      gravity: { y: 400 },
       enableBody: true,
     },
   },
-  scene: [Level1Scene, Level2Scene, Level3Scene],
+  parent: 'parentDiv',
+  dom: {
+    createContainer: true
+  },
+  scene: [PlayerScene, Level1Scene, Level2Scene, Level3Scene],
 };
 
 new Phaser.Game(gameConfig);

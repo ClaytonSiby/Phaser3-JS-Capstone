@@ -102,7 +102,7 @@ class Level2Scene extends Phaser.Scene {
       this.physics.pause();
       this.input.on('pointerup', () => {
         this.gameState.score = 0;
-        this.scene.restart();
+        this.scene.start('Level3Scene');
       })
     })
   }

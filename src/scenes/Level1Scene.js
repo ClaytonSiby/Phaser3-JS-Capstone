@@ -36,6 +36,16 @@ class Level1Scene extends Phaser.Scene {
       { x: 1000, y: 580 }
     ]
 
+    const nameInput = document.getElementById('nameInput')
+    const submitBtn = document.getElementById('submitBtn')
+
+    function hideElement (element) {
+      element.style.display = 'none'
+    }
+
+    hideElement(nameInput)
+    hideElement(submitBtn)
+
     this.gameOnSound = this.sound.add('game-music', { loop: true })
     this.gameOverSound = this.sound.add('game_over_sound', { loop: false })
     this.gameOnSound.play()
@@ -124,7 +134,7 @@ class Level1Scene extends Phaser.Scene {
       this.physics.pause()
       this.input.on('pointerup', () => {
         this.gameState.score = 0
-        this.scene.restart()
+        this.scene.start('Level2Scene')
       })
     })
   }
