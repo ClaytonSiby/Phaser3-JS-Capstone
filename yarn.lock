@@ -3953,7 +3953,7 @@
   dependencies:
     "p-locate" "^4.1.0"
 
-"lodash@^4.17.11", "lodash@^4.17.14", "lodash@^4.17.15", "lodash@^4.17.19", "lodash@^4.17.4":
+"lodash@^4.17.11", "lodash@^4.17.14", "lodash@^4.17.15", "lodash@^4.17.19", "lodash@^4.17.20", "lodash@^4.17.4":
   "integrity" "sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA=="
   "resolved" "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz"
   "version" "4.17.20"

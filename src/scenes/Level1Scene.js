@@ -1,13 +1,13 @@
-import BaseScene from './BaseScene';
-
-class Level1Scene extends BaseScene {
+import PlayerScene from './PlayerScene';
+import DataTransfere from '../helpers/DataTransfere';
+class Level1Scene extends PlayerScene {
   constructor () {
     super('Level1Scene')
   }
 
   preload () {
     this.load.image('green_bug', 'assets/bug_2.png')
-    this.load.spritesheet('player', 'assets/player.png', {
+    this.load.spritesheet('character', 'assets/player.png', {
       frameWidth: 72,
       frameHeight: 90
     })
@@ -18,6 +18,7 @@ class Level1Scene extends BaseScene {
   }
 
   create () {
+    console.log(this.gameState.player)
     const bgCoordinates = [
       { x: 100, y: 100 },
       { x: 500, y: 150 },
@@ -65,20 +66,20 @@ class Level1Scene extends BaseScene {
       this.add.image(bg_cord.x, bg_cord.y, 'level1_bg')
     })
 
-    this.gameState.player = this.physics.add
-      .sprite(225, 440, 'player')
+    this.gameState.character = this.physics.add
+      .sprite(225, 440, 'character')
       .setScale(0.6)
     this.gameState.cursors = this.input.keyboard.createCursorKeys()
 
     const platforms = this.physics.add.staticGroup()
-    this.physics.add.collider(this.gameState.player, platforms)
+    this.physics.add.collider(this.gameState.character, platforms)
 
     platformPositions.map(plat => {
       platforms.create(plat.x, plat.y, 'level_one_platform').setScale(0.7)
     })
 
-    this.gameState.player.setCollideWorldBounds(true)
-    this.physics.add.collider(this.gameState.player, platforms)
+    this.gameState.character.setCollideWorldBounds(true)
+    this.physics.add.collider(this.gameState.character, platforms)
 
     const bugs = this.physics.add.group()
     const bugList = ['green_bug', 'green_bug', 'green_bug']
@@ -100,10 +101,10 @@ class Level1Scene extends BaseScene {
 
     const bugGeneratorLoop = this.time.addEvent(bugObject)
 
-    // create animations on the player sprite
+    // create animations on the character sprite
     this.anims.create({
       key: 'run',
-      frames: this.anims.generateFrameNumbers('player', {
+      frames: this.anims.generateFrameNumbers('character', {
         start: 0,
         end: 3
       })
@@ -111,7 +112,7 @@ class Level1Scene extends BaseScene {
 
     this.anims.create({
       key: 'idle',
-      frames: this.anims.generateFrameNames('player', {
+      frames: this.anims.generateFrameNames('character', {
         start: 4,
         end: 5
       })
@@ -125,35 +126,37 @@ class Level1Scene extends BaseScene {
       this.gameState.scoreText.setText(`Score: ${this.gameState.score}`)
     })
 
-    // collide a bug & the player then its game over
-    this.physics.add.collider(this.gameState.player, bugs, () => {
+    // collide a bug & the character then its game over
+    this.physics.add.collider(this.gameState.character, bugs, () => {
       bugGeneratorLoop.destroy()
-
+      console.log(this.gameState.player)
       this.gameOnSound.stop()
       this.gameOverSound.play()
       this.physics.pause()
-      this.input.on('pointerup', () => {
-        this.gameState.score = 0
-        this.scene.start('Level2Scene')
-      })
+      // this.scene.stop('Level1Scene');
+      // this.scene.start('GameOverScene');
+      // this.input.on('pointerup', () => {
+      //   this.gameState.score = 0
+        
+      // })
     })
   };
 
   update () {
     const gameState = this.gameState
     if (gameState.cursors.right.isDown) {
-      gameState.player.setVelocityX(200)
-      gameState.player.anims.play('run', true)
+      gameState.character.setVelocityX(200)
+      gameState.character.anims.play('run', true)
 
-      gameState.player.flipX = false
+      gameState.character.flipX = false
     } else if (gameState.cursors.left.isDown) {
-      gameState.player.setVelocityX(-200)
-      gameState.player.anims.play('run', true)
+      gameState.character.setVelocityX(-200)
+      gameState.character.anims.play('run', true)
 
-      gameState.player.flipX = true
+      gameState.character.flipX = true
     } else {
-      gameState.player.setVelocityX(0)
-      gameState.player.anims.play('idle', true)
+      gameState.character.setVelocityX(0)
+      gameState.character.anims.play('idle', true)
     }
   }
 }

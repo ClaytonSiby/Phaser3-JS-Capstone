@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const DataTransfere = () => {
+const DataTransfere = (() => {
   const postGameScore = async (playerName, score) => {
     const result = await axios
       .post(
@@ -32,6 +32,6 @@ const DataTransfere = () => {
   }
 
   return { postGameScore, getGameScore }
-}
+})();
 
 export default DataTransfere;
