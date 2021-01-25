@@ -4,10 +4,6 @@ class BaseScene extends Phaser.Scene {
 
     this.gameState = { score: 0 }
   }
-
-  preload () {}
-  create () {}
-  update () {}
 }
 
 export default BaseScene

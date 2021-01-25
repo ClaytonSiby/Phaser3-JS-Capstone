@@ -28,6 +28,7 @@
     "webpack-dev-server": "^2.0.0"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "phaser": "^3.0.0"
   }
 }
