@@ -1,12 +1,8 @@
-import DataTransfere from '../helpers/DataTransfere';
-import globals from '../globals/index';
-import { clone } from 'lodash';
+import DataTransfere from '../helpers/DataTransfere'
 class PlayerScene extends Phaser.Scene {
   constructor (key) {
     super(key)
-    this.nameInput = document.querySelector('#nameInput')
-    this.submitBtn = document.querySelector('#submitBtn')
-    this.gameState = { score: 0, player: this.nameInput.value }
+    this.gameState = { score: 0, player: '' }
   }
 
   preload () {
@@ -14,7 +10,8 @@ class PlayerScene extends Phaser.Scene {
   }
 
   create () {
-    this.initGlobalVariables();
+    this.nameInput = document.querySelector('#nameInput')
+    this.submitBtn = document.querySelector('#submitBtn')
     this.background = this.add.image(0, 0, 'player-scene-bg').setOrigin(0, 0)
     this.background.displayWidth = this.sys.canvas.width
     this.background.displayHeight = this.sys.canvas.height
@@ -24,22 +21,24 @@ class PlayerScene extends Phaser.Scene {
       fontWeight: 'bold'
     })
 
+    DataTransfere.getGameScore().then(result => this.gameState.score = result);
+
     this.add.text(300, 200, 'Please enter your name to get started')
     this.submitBtn.addEventListener('click', e => {
       e.preventDefault()
       const nameHolder = document.getElementById('nameHolder')
-      if (this.nameInput.value) {
+      const validateForm = DataTransfere.formValidator;
+      if (validateForm(this.nameInput.value)) {
+        this.gameState.player = this.nameInput.value;
+        this.registry.set('player', this.gameState.player);
+        this.registry.set('score', this.gameState.score);
         nameHolder.textContent = `Enjoy the Game ${this.gameState.player}!`
-        this.scene.stop('PlayerScene')
         this.scene.start('Level1Scene')
       } else {
         nameHolder.textContent = `Please provide your name to proceed!`
       }
     })
-  }
 
-  initGlobalVariables() {
-    this.game.global = clone(globals);
   }
 }
 

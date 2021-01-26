@@ -31,7 +31,11 @@ const DataTransfere = (() => {
     return request;
   }
 
-  return { postGameScore, getGameScore }
+  const formValidator = (value) => {
+    return value.length > 2 ? true : false
+  }
+
+  return { postGameScore, getGameScore, formValidator };
 })();
 
 export default DataTransfere;
