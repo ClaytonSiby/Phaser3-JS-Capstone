@@ -1,5 +1,5 @@
-import PlayerScene from './PlayerScene';
-import Helpers from '../helpers/utils';
+import PlayerScene from './PlayerScene'
+import Helpers from '../helpers/utils'
 class Level1Scene extends PlayerScene {
   constructor () {
     super('Level1Scene')
@@ -46,16 +46,11 @@ class Level1Scene extends PlayerScene {
     this.gameOverSound = this.sound.add('game_over_sound', { loop: false })
     this.gameOnSound.play()
 
-    this.scoreText = this.add.text(
-      10,
-      25,
-      `Score: ${this.score}`,
-      {
-        fill: '#37c3be',
-        fontSize: 23,
-        fontWeight: 900
-      }
-    )
+    this.scoreText = this.add.text(10, 25, `Score: ${this.score}`, {
+      fill: '#37c3be',
+      fontSize: 23,
+      fontWeight: 900
+    })
 
     bgCoordinates.map(bg_cord => {
       this.add.image(bg_cord.x, bg_cord.y, 'level1_bg')
@@ -94,7 +89,7 @@ class Level1Scene extends PlayerScene {
       loop: true
     }
 
-    const bugGeneratorLoop = this.time.addEvent(bugObject)
+    this.bugGeneratorLoop = this.time.addEvent(bugObject)
 
     // create animations on the character sprite
     this.anims.create({
@@ -121,28 +116,28 @@ class Level1Scene extends PlayerScene {
       this.scoreText.setText(`Score: ${this.score}`)
     })
 
-    // level up
-    if(this.score === 300) {
-      bugGeneratorLoop.destroy()
-      this.gameOnSound.stop()
-      this.gameOverSound.play()
-      this.physics.pause()
-      this.scene.stop('Level1Scene')
-      this.scene.start('Level2Scene')
-    }
-
     // collide a bug & the character then its game over
     this.physics.add.collider(this.gameState.character, bugs, () => {
-      bugGeneratorLoop.destroy()
+      this.bugGeneratorLoop.destroy()
       this.gameOnSound.stop()
       this.gameOverSound.play()
       this.physics.pause()
-      this.registry.set('playerScore', this.score);
-      this.scene.start('GameOverScene');
+      this.registry.set('playerScore', this.score)
+      this.scene.start('GameOverScene')
     })
-  };
+  }
 
   update () {
+    if (this.score == 300) {
+      this.bugGeneratorLoop.destroy()
+      this.gameOnSound.stop()
+      this.physics.pause()
+      this.add.text(400, 300, 'Starting Level 2, Get Ready!', { fill: '#0f0' })
+      setTimeout(() => {
+        this.scene.stop('Level1Scene')
+        this.scene.start('Level2Scene')
+      }, 3000)
+    }
     const gameState = this.gameState
     if (gameState.cursors.right.isDown) {
       gameState.character.setVelocityX(200)
