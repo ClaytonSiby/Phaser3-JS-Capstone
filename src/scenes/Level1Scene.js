@@ -121,6 +121,16 @@ class Level1Scene extends PlayerScene {
       this.scoreText.setText(`Score: ${this.score}`)
     })
 
+    // level up
+    if(this.score === 300) {
+      bugGeneratorLoop.destroy()
+      this.gameOnSound.stop()
+      this.gameOverSound.play()
+      this.physics.pause()
+      this.scene.stop('Level1Scene')
+      this.scene.start('Level2Scene')
+    }
+
     // collide a bug & the character then its game over
     this.physics.add.collider(this.gameState.character, bugs, () => {
       bugGeneratorLoop.destroy()
