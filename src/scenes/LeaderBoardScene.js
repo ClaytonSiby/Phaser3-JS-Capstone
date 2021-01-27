@@ -11,6 +11,7 @@ class LeaderBoardScene extends PlayerScene {
   create () {
     let lineHeight = 180;
     this.topPlayers = this.registry.get('score')
+    // console.log(this.topPlayers);
     this.add.text(350, 150, 'These are the Top Players: ', {
       fill: '#0f0',
       fontWeight: 900
