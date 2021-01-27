@@ -18,7 +18,6 @@ class Level1Scene extends PlayerScene {
   }
 
   create () {
-    console.log(this.gameState.player)
     const bgCoordinates = [
       { x: 100, y: 100 },
       { x: 500, y: 150 },
@@ -51,10 +50,10 @@ class Level1Scene extends PlayerScene {
     this.gameOverSound = this.sound.add('game_over_sound', { loop: false })
     this.gameOnSound.play()
 
-    this.gameState.scoreText = this.add.text(
+    this.scoreText = this.add.text(
       10,
       25,
-      `Score: ${this.gameState.score}`,
+      `Score: ${this.score}`,
       {
         fill: '#37c3be',
         fontSize: 23,
@@ -122,23 +121,18 @@ class Level1Scene extends PlayerScene {
     this.physics.add.collider(bugs, platforms, bug => {
       bug.destroy()
 
-      this.gameState.score += 10
-      this.gameState.scoreText.setText(`Score: ${this.gameState.score}`)
+      this.score += 10
+      this.scoreText.setText(`Score: ${this.score}`)
     })
 
     // collide a bug & the character then its game over
     this.physics.add.collider(this.gameState.character, bugs, () => {
       bugGeneratorLoop.destroy()
-      console.log(this.gameState.player)
       this.gameOnSound.stop()
       this.gameOverSound.play()
       this.physics.pause()
-      // this.scene.stop('Level1Scene');
-      // this.scene.start('GameOverScene');
-      // this.input.on('pointerup', () => {
-      //   this.gameState.score = 0
-        
-      // })
+      this.registry.set('playerScore', this.score);
+      this.scene.start('GameOverScene');
     })
   };
 

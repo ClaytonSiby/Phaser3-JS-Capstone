@@ -31,11 +31,12 @@ class Level3Scene extends PlayerScene {
     this.background = this.add.image(0, 0, 'level_three_bg').setOrigin(0, 0)
     this.background.displayWidth = this.sys.canvas.width
     this.background.displayHeight = this.sys.canvas.height
+    this.score = 0;
 
-    this.gameState.scoreText = this.add.text(
+    this.scoreText = this.add.text(
       10,
       25,
-      `Score: ${this.gameState.score}`,
+      `Score: ${this.score}`,
       {
         fontSize: 23,
         fontWeight: 900
@@ -93,8 +94,8 @@ class Level3Scene extends PlayerScene {
     this.physics.add.collider(bugs, platforms, bug => {
       bug.destroy()
 
-      this.gameState.score += 10
-      this.gameState.scoreText.setText(`Score: ${this.gameState.score}`)
+      this.score += 10
+      this.scoreText.setText(`Score: ${this.score}`)
     })
 
     // collide a bug & the character then its game over
@@ -105,7 +106,7 @@ class Level3Scene extends PlayerScene {
       this.scene.stop('Level3Scene');
       this.scene.start('GameOverScene');
       // this.input.on('pointerup', () => {
-      //   this.gameState.score = 0
+      //   this.score = 0
       //   this.scene.restart()
       // })
     })

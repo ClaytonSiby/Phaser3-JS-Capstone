@@ -1,8 +1,9 @@
-import DataTransfere from '../helpers/DataTransfere'
+import DataTransfere from '../helpers/DataTransfere';
 class PlayerScene extends Phaser.Scene {
   constructor (key) {
     super(key)
-    this.gameState = { score: 0, player: '' }
+    this.gameState = { player: '' };
+    this.score = 0;
   }
 
   preload () {
@@ -21,24 +22,23 @@ class PlayerScene extends Phaser.Scene {
       fontWeight: 'bold'
     })
 
-    DataTransfere.getGameScore().then(result => this.gameState.score = result);
+    DataTransfere.getGameScore().then(result => this.highScores = result);
 
     this.add.text(300, 200, 'Please enter your name to get started')
     this.submitBtn.addEventListener('click', e => {
       e.preventDefault()
       const nameHolder = document.getElementById('nameHolder')
-      const validateForm = DataTransfere.formValidator;
+      const validateForm = DataTransfere.formValidator
       if (validateForm(this.nameInput.value)) {
-        this.gameState.player = this.nameInput.value;
-        this.registry.set('player', this.gameState.player);
-        this.registry.set('score', this.gameState.score);
+        this.gameState.player = this.nameInput.value
+        this.registry.set('user', this.gameState.player)
+        this.registry.set('score', this.highScores)
         nameHolder.textContent = `Enjoy the Game ${this.gameState.player}!`
         this.scene.start('Level1Scene')
       } else {
         nameHolder.textContent = `Please provide your name to proceed!`
       }
     })
-
   }
 }
 
