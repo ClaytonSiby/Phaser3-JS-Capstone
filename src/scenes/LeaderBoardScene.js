@@ -6,12 +6,16 @@ class LeaderBoardScene extends PlayerScene {
     super('LeaderBoardScene')
   }
 
-  preload () {}
+  preload () {
+    this.load.audio('bg-music', 'assets/menu.wav')
+  }
 
   create () {
-    let lineHeight = 180;
+    this._bgMusic = this.sound.add('bg-music', { loop: true })
+    this._bgMusic.play();
+
+    let lineHeight = 180
     this.topPlayers = this.registry.get('score')
-    // console.log(this.topPlayers);
     this.add.text(350, 150, 'These are the Top Players: ', {
       fill: '#0f0',
       fontWeight: 900
@@ -30,7 +34,8 @@ class LeaderBoardScene extends PlayerScene {
 
     this.add.text(330, 450, 'Click Anywhere to go back to Menu')
     this.input.on('pointerup', () => {
-      this.scene.start('MenuScene');
+      this._bgMusic.stop();
+      this.scene.start('MenuScene')
     })
   }
 }
