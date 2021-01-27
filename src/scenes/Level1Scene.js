@@ -1,5 +1,5 @@
 import PlayerScene from './PlayerScene';
-import DataTransfere from '../helpers/DataTransfere';
+import Helpers from '../helpers/utils';
 class Level1Scene extends PlayerScene {
   constructor () {
     super('Level1Scene')
@@ -39,12 +39,8 @@ class Level1Scene extends PlayerScene {
     const nameInput = document.getElementById('nameInput')
     const submitBtn = document.getElementById('submitBtn')
 
-    function hideElement (element) {
-      element.style.display = 'none'
-    }
-
-    hideElement(nameInput)
-    hideElement(submitBtn)
+    Helpers.hideElement(nameInput)
+    Helpers.hideElement(submitBtn)
 
     this.gameOnSound = this.sound.add('game-music', { loop: true })
     this.gameOverSound = this.sound.add('game_over_sound', { loop: false })

@@ -34,7 +34,7 @@ class PlayerScene extends Phaser.Scene {
         this.registry.set('user', this.gameState.player)
         this.registry.set('score', this.highScores)
         nameHolder.textContent = `Enjoy the Game ${this.gameState.player}!`
-        this.scene.start('Level1Scene')
+        this.scene.start('MenuScene')
       } else {
         nameHolder.textContent = `Please provide your name to proceed!`
       }
