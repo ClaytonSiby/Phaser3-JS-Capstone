@@ -23,9 +23,6 @@ class MenuScene extends PlayerScene {
     Helpers.hideElement(nameInput)
     Helpers.hideElement(submitBtn)
 
-    // this.playBtn = this.add.sprite(400, 300, 'play-btn').setInteractive()
-    // this.leaderBoardBtn = this.add.sprite(400, 340, 'leaderboard').setInteractive()
-
     this.playBtn = this.add
       .text(400, 250, 'Play Game', {
         fill: '#34ebcc',
@@ -44,28 +41,14 @@ class MenuScene extends PlayerScene {
       })
       .setInteractive()
 
-    this.optionsBtn = this.add
-      .text(420, 370, 'Options', {
-        fill: '#34ebcc',
-        fontSize: 30,
-        fontWeight: 900,
-        cursor: 'pointer'
-      })
-      .setInteractive()
-
     this.playBtn.on('pointerup', () => {
-      this.backgroundMusic.stop();
+      this.backgroundMusic.stop()
       this.scene.start('Level1Scene')
     })
 
     this.viewLeaderBoard.on('pointerup', () => {
-      this.backgroundMusic.stop();
+      this.backgroundMusic.stop()
       this.scene.start('LeaderBoardScene')
-    })
-
-    this.optionsBtn.on('pointerup', () => {
-      this.backgroundMusic.stop();
-      this.scene.start('OptionsScene')
     })
   }
 
