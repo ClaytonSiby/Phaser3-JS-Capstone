@@ -27,7 +27,10 @@ class LeaderBoardScene extends PlayerScene {
       )
     })
 
-    this.add.text(330, 450, 'Click Anywhere to go back to menu page')
+    this.add.text(330, 450, 'Click Anywhere to go back to Menu')
+    this.input.on('pointerup', () => {
+      this.scene.start('MenuScene');
+    })
   }
 }
 
