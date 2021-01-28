@@ -20,6 +20,10 @@ class Level3Scene extends PlayerScene {
       { x: 992, y: 580 },
     ];
 
+    this.gameOnSound = this.sound.add('game-music', { loop: true });
+    this.gameOverSound = this.sound.add('game_over_sound', { loop: false });
+    this.gameOnSound.play();
+
     this.background = this.add.image(0, 0, 'level_three_bg').setOrigin(0, 0);
     this.background.displayWidth = this.sys.canvas.width;
     this.background.displayHeight = this.sys.canvas.height;
@@ -59,7 +63,7 @@ class Level3Scene extends PlayerScene {
 
     const bugObject = {
       callback: bugGenerator,
-      delay: 80,
+      delay: 50,
       callbackScope: this,
       loop: true,
     };
@@ -93,6 +97,8 @@ class Level3Scene extends PlayerScene {
     // collide a bug & the character then its game over
     this.physics.add.collider(this.gameState.character, bugs, () => {
       this.bugGeneratorLoop.destroy();
+      this.gameOnSound.stop();
+      this.gameOverSound.play();
 
       this.physics.pause();
       this.registry.set('playerScore', this.score);

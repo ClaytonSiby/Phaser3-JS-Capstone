@@ -8,8 +8,6 @@ class Level1Scene extends PlayerScene {
 
   preload() {
     this.load.image('level_one_platform', 'assets/platform.png');
-    this.load.audio('game-music', ['assets/game-sound.mp3']);
-    this.load.audio('game_over_sound', ['assets/gameover.wav']);
   }
 
   create() {
