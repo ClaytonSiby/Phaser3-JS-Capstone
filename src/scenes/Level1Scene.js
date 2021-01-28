@@ -37,6 +37,7 @@ class Level1Scene extends PlayerScene {
 
     this.gameOnSound = this.sound.add('game-music', { loop: true });
     this.gameOverSound = this.sound.add('game_over_sound', { loop: false });
+    this.winSound = this.sound.add('win-sound');
     this.gameOnSound.play();
 
     this.scoreText = this.add.text(10, 25, `Score: ${this.score}`, {
@@ -121,8 +122,7 @@ class Level1Scene extends PlayerScene {
   }
 
   update() {
-    if (this.score == 3000) {
-      this.gameOnSound.stop();
+    if (this.score == 300) {
       this.startNextLevel('Level2Scene');
     }
 

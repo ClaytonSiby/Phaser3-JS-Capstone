@@ -22,6 +22,7 @@ class PlayerScene extends Phaser.Scene {
     this.load.image('level_three_bg', 'assets/level-3-bg.png');
     this.load.audio('game-music', ['assets/game-bg-music.ogg']);
     this.load.audio('game_over_sound', ['assets/gameover.wav']);
+    this.load.audio('win-sound', ['assets/win.wav'])
   }
 
   create() {
@@ -56,12 +57,10 @@ class PlayerScene extends Phaser.Scene {
   }
 
   startNextLevel(nextLevel) {
+    this.winSound.play();
     this.bugGeneratorLoop.destroy();
     this.gameOnSound.stop();
     this.physics.pause();
-    setTimeout(() => {
-      this.add.text(400, 300, 'Level Up, Get Ready For The Next One!', { fill: '#0f0' });
-    }, 1000);
 
     this.scene.start(nextLevel);
   }

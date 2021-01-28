@@ -12,6 +12,16 @@ class Level2Scene extends PlayerScene {
 
   create() {
     this.physics.resume();
+
+    const levelAlert = this.add.text(370, 300, "You're now playing level 3", { fill: '#f00' });
+    levelAlert.style.display = 'none';
+
+    setTimeout(() => {
+      levelAlert.style.display = 'block';
+    }, 500)
+
+    clearTimeout(levelAlert);
+
     const platformPositions = [
       { x: 92, y: 580 },
       { x: 272, y: 580 },
@@ -23,6 +33,7 @@ class Level2Scene extends PlayerScene {
 
     this.gameOnSound = this.sound.add('game-music', { loop: true });
     this.gameOverSound = this.sound.add('game_over_sound', { loop: false });
+    this.winSound = this.sound.add('win-sound');
     this.gameOnSound.play();
 
     this.backgroundImage = this.add.image(0, 0, 'level_two_bg').setOrigin(0, 0);
@@ -105,7 +116,7 @@ class Level2Scene extends PlayerScene {
   }
 
   update() {
-    if (this.score == 1000) {
+    if (this.score == 10000) {
       this.startNextLevel('Level3Scene');
     }
     const { gameState } = this;
