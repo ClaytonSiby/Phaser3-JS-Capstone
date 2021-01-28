@@ -6,13 +6,7 @@ class Level1Scene extends PlayerScene {
   }
 
   preload () {
-    this.load.image('green_bug', 'assets/bug_2.png')
-    this.load.spritesheet('character', 'assets/player.png', {
-      frameWidth: 72,
-      frameHeight: 90
-    })
     this.load.image('level_one_platform', 'assets/platform.png')
-    this.load.image('level1_bg', 'assets/level1_bg.png')
     this.load.audio('game-music', ['assets/game-sound.mp3'])
     this.load.audio('game_over_sound', ['assets/gameover.wav'])
   }
@@ -128,16 +122,10 @@ class Level1Scene extends PlayerScene {
   }
 
   update () {
-    if (this.score == 300) {
-      this.bugGeneratorLoop.destroy()
-      this.gameOnSound.stop()
-      this.physics.pause()
-      this.add.text(400, 300, 'Starting Level 2, Get Ready!', { fill: '#0f0' })
-      setTimeout(() => {
-        this.scene.stop('Level1Scene')
-        this.scene.start('Level2Scene')
-      }, 3000)
+    if (this.score == 5000) {
+      this.startNextLevel('Level1Scene', 'Level2Scene')
     }
+
     const gameState = this.gameState
     if (gameState.cursors.right.isDown) {
       gameState.character.setVelocityX(200)

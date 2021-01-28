@@ -1,24 +1,18 @@
-import PlayerScene from './PlayerScene';
-import DataTransfere from '../helpers/DataTransfere';
+import PlayerScene from './PlayerScene'
+import DataTransfere from '../helpers/DataTransfere'
 class Level2Scene extends PlayerScene {
   constructor () {
     super('Level2Scene')
   }
 
   preload () {
-    this.load.image('green_bug', 'assets/bug_2.png')
-    this.load.image('yellow_bug', 'assets/bug_1.png')
-    this.load.spritesheet('character', 'assets/player.png', {
-      frameWidth: 72,
-      frameHeight: 90
-    })
-    this.load.image('level_two_bg', 'assets/bg-image.png')
-    this.load.image('platform', 'assets/platform_2.png')
+    this.load.image('level_two_platform', 'assets/platform_2.png')
   }
 
   create () {
+    this.physics.resume()
     const platformPositions = [
-      { x: 92, y: 580},
+      { x: 92, y: 580 },
       { x: 272, y: 580 },
       { x: 452, y: 580 },
       { x: 632, y: 580 },
@@ -26,38 +20,35 @@ class Level2Scene extends PlayerScene {
       { x: 992, y: 580 }
     ]
 
-    this.background = this.add.image(0, 0, 'level_two_bg').setOrigin(0, 0)
-    this.background.displayWidth = this.sys.canvas.width
-    this.background.displayHeight = this.sys.canvas.height
-    this.score = 0;
+    this.backgroundImage = this.add.image(0, 0, 'level_two_bg').setOrigin(0, 0)
+    this.backgroundImage.displayWidth = this.sys.canvas.width
+    this.backgroundImage.displayHeight = this.sys.canvas.height
+    this.score = 5000
 
-    this.scoreText = this.add.text(
-      10,
-      25,
-      `Score: ${this.score}`,
-      {
-        fontSize: 23,
-        fontWeight: 900
-      }
-    )
-
-    this.gameState.character = this.physics.add.sprite(225, 440, 'character').setScale(.6);
-    this.gameState.cursors = this.input.keyboard.createCursorKeys();
-
-    const platforms = this.physics.add.staticGroup();
-    this.physics.add.collider(this.gameState.character, platforms);
-    this.gameState.character.setCollideWorldBounds(true);
-
-    platformPositions.map(plat => {
-      platforms.create(plat.x, plat.y, 'platform').setScale(.9);
+    this.scoreText = this.add.text(10, 25, `Score: ${this.score}`, {
+      fontSize: 23,
+      fontWeight: 900
     })
 
-    const bugs = this.physics.add.group();
-    const thebugs = ['green_bug', 'yellow_bug'];
+    this.gameState.character = this.physics.add
+      .sprite(225, 440, 'character')
+      .setScale(0.6)
+    this.gameState.cursors = this.input.keyboard.createCursorKeys()
 
-    function bugGenerator() {
-      const xCoordinate = Math.random() * 1000;
-      let randomBug = thebugs[Math.floor(Math.random() * 2)];
+    const platforms = this.physics.add.staticGroup()
+    this.physics.add.collider(this.gameState.character, platforms)
+    this.gameState.character.setCollideWorldBounds(true)
+
+    platformPositions.map(plat => {
+      platforms.create(plat.x, plat.y, 'level_two_platform').setScale(0.9)
+    })
+
+    const bugs = this.physics.add.group()
+    const thebugs = ['green_bug', 'yellow_bug']
+
+    function bugGenerator () {
+      const xCoordinate = Math.random() * 1000
+      let randomBug = thebugs[Math.floor(Math.random() * 2)]
 
       bugs.create(xCoordinate, 10, randomBug)
     }
@@ -69,7 +60,7 @@ class Level2Scene extends PlayerScene {
       loop: true
     }
 
-    const bugGeneratorLoop = this.time.addEvent(bugObject);
+    this.bugGeneratorLoop = this.time.addEvent(bugObject)
 
     // create animations on the character sprite
     this.anims.create({
@@ -90,28 +81,26 @@ class Level2Scene extends PlayerScene {
 
     // add a collider object between bugs & the platforms. Destroy the bug as it hits the platforms.
     this.physics.add.collider(bugs, platforms, bug => {
-      bug.destroy();
+      bug.destroy()
 
-      this.score += 10;
-      this.scoreText.setText(`Score: ${this.score}`);
+      this.score += 10
+      this.scoreText.setText(`Score: ${this.score}`)
     })
 
     // collide a bug & the character then its game over
     this.physics.add.collider(this.gameState.character, bugs, () => {
-      bugGeneratorLoop.destroy();
+      this.bugGeneratorLoop.destroy()
 
-      this.physics.pause();
-      this.scene.stop('Level3Scene');
-      this.scene.start('GameOverScene');
-      // this.scene.start('Level3Scene')
-      // this.input.on('pointerup', () => {
-      //   this.score = 0;
-      //   this.scene.start('Level3Scene');
-      // })
+      this.physics.pause()
+      this.registry.set('playerScore', this.score)
+      this.scene.start('GameOverScene')
     })
   }
 
   update () {
+    if (this.score == 15000) {
+      this.startNextLevel('Level2Scene', 'Level3Scene')
+    }
     const gameState = this.gameState
     if (gameState.cursors.right.isDown) {
       gameState.character.setVelocityX(200)

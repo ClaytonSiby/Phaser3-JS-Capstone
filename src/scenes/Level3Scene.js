@@ -7,15 +7,7 @@ class Level3Scene extends PlayerScene {
   }
 
   preload () {
-    this.load.image('green_bug', 'assets/bug_2.png')
-    this.load.image('yellow_bug', 'assets/bug_1.png')
-    this.load.image('red_bug', 'assets/bug_3.png')
-    this.load.image('level_three_bg', 'assets/level-3-bg.png')
-    this.load.image('platform', 'assets/platform_2.png')
-    this.load.spritesheet('character', 'assets/player.png', {
-      frameWidth: 72,
-      frameHeight: 90
-    })
+    this.load.image('level_three_platform', 'assets/platform_2.png')
   }
 
   create () {
@@ -31,7 +23,7 @@ class Level3Scene extends PlayerScene {
     this.background = this.add.image(0, 0, 'level_three_bg').setOrigin(0, 0)
     this.background.displayWidth = this.sys.canvas.width
     this.background.displayHeight = this.sys.canvas.height
-    this.score = 0;
+    this.score = 15000;
 
     this.scoreText = this.add.text(
       10,
@@ -52,7 +44,7 @@ class Level3Scene extends PlayerScene {
     this.gameState.character.setCollideWorldBounds(true)
 
     platformPositions.map(plat => {
-      platforms.create(plat.x, plat.y, 'platform')
+      platforms.create(plat.x, plat.y, 'level_three_platform')
     })
 
     const bugs = this.physics.add.group()
@@ -100,15 +92,11 @@ class Level3Scene extends PlayerScene {
 
     // collide a bug & the character then its game over
     this.physics.add.collider(this.gameState.character, bugs, () => {
-      bugGeneratorLoop.destroy()
+      this.bugGeneratorLoop.destroy()
 
       this.physics.pause()
-      this.scene.stop('Level3Scene');
-      this.scene.start('GameOverScene');
-      // this.input.on('pointerup', () => {
-      //   this.score = 0
-      //   this.scene.restart()
-      // })
+      this.registry.set('playerScore', this.score)
+      this.scene.start('GameOverScene')
     })
   }
 
