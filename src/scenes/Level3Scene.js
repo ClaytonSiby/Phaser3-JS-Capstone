@@ -1,5 +1,4 @@
 import PlayerScene from './PlayerScene'
-import DataTransfere from '../helpers/DataTransfere'
 
 class Level3Scene extends PlayerScene {
   constructor () {
@@ -110,21 +109,7 @@ class Level3Scene extends PlayerScene {
   }
 
   update () {
-    const { gameState } = this
-    if (gameState.cursors.right.isDown) {
-      gameState.character.setVelocityX(200)
-      gameState.character.anims.play('run', true)
-
-      gameState.character.flipX = false
-    } else if (gameState.cursors.left.isDown) {
-      gameState.character.setVelocityX(-200)
-      gameState.character.anims.play('run', true)
-
-      gameState.character.flipX = true
-    } else {
-      gameState.character.setVelocityX(0)
-      gameState.character.anims.play('idle', true)
-    }
+    this.movePlayer();
   }
 }
 

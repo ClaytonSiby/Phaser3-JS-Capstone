@@ -122,25 +122,11 @@ class Level1Scene extends PlayerScene {
   }
 
   update() {
-    if (this.score == 300) {
+    if (this.score == 3000) {
       this.startNextLevel('Level2Scene');
     }
 
-    const { gameState } = this;
-    if (gameState.cursors.right.isDown) {
-      gameState.character.setVelocityX(200);
-      gameState.character.anims.play('run', true);
-
-      gameState.character.flipX = false;
-    } else if (gameState.cursors.left.isDown) {
-      gameState.character.setVelocityX(-200);
-      gameState.character.anims.play('run', true);
-
-      gameState.character.flipX = true;
-    } else {
-      gameState.character.setVelocityX(0);
-      gameState.character.anims.play('idle', true);
-    }
+    this.movePlayer();
   }
 }
 

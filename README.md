@@ -33,7 +33,7 @@ The player can:
 
 ## Live demo link
 
-[The Bug Dodger](https://space-survivor.netlify.app/)
+[The Bug Dodger](https://bug-dodger-app.netlify.app/)
 
 ## How to use this app locally?
 
