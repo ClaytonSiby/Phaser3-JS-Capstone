@@ -122,7 +122,7 @@ class Level1Scene extends PlayerScene {
   }
 
   update () {
-    if (this.score == 5000) {
+    if (this.score == 4000) {
       this.startNextLevel('Level1Scene', 'Level2Scene')
     }
 

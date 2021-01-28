@@ -23,7 +23,7 @@ class Level3Scene extends PlayerScene {
     this.background = this.add.image(0, 0, 'level_three_bg').setOrigin(0, 0)
     this.background.displayWidth = this.sys.canvas.width
     this.background.displayHeight = this.sys.canvas.height
-    this.score = 15000;
+    this.score = 10000;
 
     this.scoreText = this.add.text(
       10,

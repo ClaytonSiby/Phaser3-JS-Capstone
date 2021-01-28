@@ -23,7 +23,7 @@ class Level2Scene extends PlayerScene {
     this.backgroundImage = this.add.image(0, 0, 'level_two_bg').setOrigin(0, 0)
     this.backgroundImage.displayWidth = this.sys.canvas.width
     this.backgroundImage.displayHeight = this.sys.canvas.height
-    this.score = 5000
+    this.score = 4000
 
     this.scoreText = this.add.text(10, 25, `Score: ${this.score}`, {
       fontSize: 23,
@@ -98,7 +98,7 @@ class Level2Scene extends PlayerScene {
   }
 
   update () {
-    if (this.score == 15000) {
+    if (this.score == 10000) {
       this.startNextLevel('Level2Scene', 'Level3Scene')
     }
     const gameState = this.gameState
