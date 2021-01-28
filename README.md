@@ -9,7 +9,7 @@ Kindly check the Game Design Document I made before starting out: [GDD](./gdd.md
 
 ## What is this project about? 
 
-This game consists of three levels all of which you need to dodge all the falling bugs for as long as you can to get more points. The rate at which the bugs come out increases at each level. Players are required to enter their name in the input field so the system can update the LeaderBoard. It takes a few minutes before the leaderboard scene gets updated, so you do need to refresh your browser tab to view the updated leaderboard.
+This game consists of three levels all of which you need to dodge all the falling bugs for as long as you can to get more points. The rate at which the bugs come out increases at each level. Players are required to enter their name in the input field so the system can update the LeaderBoard with scores assigned to the provided name. It takes a few minutes before the leaderboard scene gets updated, so you do need to refresh your browser tab to view the updated leaderboard.
 
 
 ## Built with: 
