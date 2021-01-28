@@ -1,11 +1,11 @@
-import 'regenerator-runtime/runtime'
-import Phaser from 'phaser'
-import PlayerScene from './scenes/PlayerScene'
+import 'regenerator-runtime/runtime';
+import Phaser from 'phaser';
+import PlayerScene from './scenes/PlayerScene';
 import MenuScene from './scenes/MenuScene';
-import Level1Scene from './scenes/Level1Scene'
-import Level2Scene from './scenes/Level2Scene'
-import Level3Scene from './scenes/Level3Scene'
-import GameOverScene from './scenes/GameOverScene'
+import Level1Scene from './scenes/Level1Scene';
+import Level2Scene from './scenes/Level2Scene';
+import Level3Scene from './scenes/Level3Scene';
+import GameOverScene from './scenes/GameOverScene';
 import LeaderBoardScene from './scenes/LeaderBoardScene';
 
 const gameConfig = {
@@ -16,12 +16,12 @@ const gameConfig = {
     default: 'arcade',
     arcade: {
       gravity: { y: 400 },
-      enableBody: true
-    }
+      enableBody: true,
+    },
   },
   parent: 'parentDiv',
   dom: {
-    createContainer: true
+    createContainer: true,
   },
   scene: [
     PlayerScene,
@@ -31,7 +31,7 @@ const gameConfig = {
     Level2Scene,
     Level3Scene,
     GameOverScene,
-  ]
-}
+  ],
+};
 
-new Phaser.Game(gameConfig)
+new Phaser.Game(gameConfig);

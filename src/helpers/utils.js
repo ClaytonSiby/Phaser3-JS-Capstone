@@ -1,9 +1,9 @@
 const Helpers = (() => {
   const hideElement = element => {
-    element.style.display = 'none'
-  }
+    element.style.display = 'none';
+  };
 
-  return { hideElement }
-})()
+  return { hideElement };
+})();
 
-export default Helpers
+export default Helpers;

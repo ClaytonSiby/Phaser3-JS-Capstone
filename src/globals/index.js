@@ -1,3 +1,3 @@
 export default {
-    score: 0, player: '',
-}
+  score: 0, player: '',
+};

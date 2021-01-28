@@ -1,41 +1,42 @@
-import PlayerScene from './PlayerScene'
-import DataTransfere from '../helpers/DataTransfere'
+import PlayerScene from './PlayerScene';
+import DataTransfere from '../helpers/DataTransfere';
 
 class GameOverScene extends PlayerScene {
-  constructor () {
-    super('GameOverScene')
+  constructor() {
+    super('GameOverScene');
   }
 
-  preload () {}
-  create () {
+  preload() {}
+
+  create() {
     this.add.text(410, 300, 'Game Over', {
-      fill: '#0f0'
-    })
+      fill: '#0f0',
+    });
 
     this.add.text(
       380,
       340,
       `Your score is: ${this.registry.get('playerScore').toString()}`,
-      { fill: '#0f0' }
-    )
+      { fill: '#0f0' },
+    );
 
     this.backToMenuBtn = this.add.text(400, 470, 'Go Back to Menu', {
       fill: '#34ebcc',
       font: 30,
-      fontWeight: 'bold'
+      fontWeight: 'bold',
     }).setInteractive();
 
     DataTransfere.postGameScore(
       this.registry.get('user'),
-      this.registry.get('playerScore')
+      this.registry.get('playerScore'),
     ).then(() => {
-      this.fetched = true
-    })
+      this.fetched = true;
+    });
 
     this.backToMenuBtn.on('pointerup', () => {
       this.scene.start('MenuScene');
-    })
+    });
   }
 }
 
-export default GameOverScene
+export default GameOverScene;
