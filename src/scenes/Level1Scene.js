@@ -125,7 +125,7 @@ class Level1Scene extends PlayerScene {
   update() {
     if (this.score == 3000) {
       this.gameOnSound.stop();
-      this.startNextLevel('Level1Scene', 'Level2Scene');
+      this.startNextLevel('Level2Scene');
     }
 
     const { gameState } = this;

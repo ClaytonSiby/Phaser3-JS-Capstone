@@ -100,7 +100,7 @@ class Level2Scene extends PlayerScene {
 
   update() {
     if (this.score == 1000) {
-      this.startNextLevel('Level2Scene', 'Level3Scene');
+      this.startNextLevel('Level3Scene');
     }
     const { gameState } = this;
     if (gameState.cursors.right.isDown) {

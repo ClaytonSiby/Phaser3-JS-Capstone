@@ -53,13 +53,12 @@ class PlayerScene extends Phaser.Scene {
     });
   }
 
-  startNextLevel(currentLevel, nextLevel) {
+  startNextLevel(nextLevel) {
     this.bugGeneratorLoop.destroy();
     // this.gameOnSound.stop();
     this.physics.pause();
     this.add.text(400, 300, 'Level Up, Get Ready For The Next One!', { fill: '#0f0' });
     setTimeout(() => {
-      this.scene.stop(currentLevel);
       this.scene.start(nextLevel);
     }, 3000);
   }
