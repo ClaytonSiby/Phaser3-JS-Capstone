@@ -7,7 +7,7 @@ class MenuScene extends PlayerScene {
   }
 
   preload() {
-    this.load.audio('menu-bg-music', 'assets/menu.wav');
+    this.load.audio('menu-bg-music', 'assets/audio/menu.wav');
   }
 
   create() {

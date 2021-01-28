@@ -7,7 +7,7 @@ class LeaderBoardScene extends PlayerScene {
   }
 
   preload() {
-    this.load.audio('bg-music', 'assets/menu.wav');
+    this.load.audio('bg-music', 'assets/audio/menu.wav');
   }
 
   create() {

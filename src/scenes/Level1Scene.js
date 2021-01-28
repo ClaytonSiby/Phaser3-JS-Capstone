@@ -7,7 +7,7 @@ class Level1Scene extends PlayerScene {
   }
 
   preload() {
-    this.load.image('level_one_platform', 'assets/platform.png');
+    this.load.image('level_one_platform', 'assets/images/platform.png');
   }
 
   create() {

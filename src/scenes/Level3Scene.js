@@ -7,7 +7,7 @@ class Level3Scene extends PlayerScene {
   }
 
   preload () {
-    this.load.image('level_three_platform', 'assets/platform_2.png')
+    this.load.image('level_three_platform', 'assets/images/platform_2.png')
   }
 
   create () {

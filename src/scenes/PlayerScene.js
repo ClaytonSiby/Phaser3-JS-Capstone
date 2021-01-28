@@ -8,21 +8,21 @@ class PlayerScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('red_bug', 'assets/bug_3.png');
-    this.load.image('green_bug', 'assets/bug_2.png');
-    this.load.image('yellow_bug', 'assets/bug_1.png');
-    this.load.spritesheet('character', 'assets/player.png', {
+    this.load.image('red_bug', 'assets/images/bug_3.png');
+    this.load.image('green_bug', 'assets/images/bug_2.png');
+    this.load.image('yellow_bug', 'assets/images/bug_1.png');
+    this.load.spritesheet('character', 'assets/images/player.png', {
       frameWidth: 72,
       frameHeight: 90,
     });
-    this.load.image('player-scene-bg', 'assets/start-page.png');
-    this.load.image('menu-bg', 'assets/menu-bg.png');
-    this.load.image('level1_bg', 'assets/level1_bg.png');
-    this.load.image('level_two_bg', 'assets/bg-image.png');
-    this.load.image('level_three_bg', 'assets/level-3-bg.png');
-    this.load.audio('game-music', ['assets/game-bg-music.ogg']);
-    this.load.audio('game_over_sound', ['assets/gameover.wav']);
-    this.load.audio('win-sound', ['assets/win.wav'])
+    this.load.image('player-scene-bg', 'assets/images/start-page.png');
+    this.load.image('menu-bg', 'assets/images/menu-bg.png');
+    this.load.image('level1_bg', 'assets/images/level1_bg.png');
+    this.load.image('level_two_bg', 'assets/images/bg-image.png');
+    this.load.image('level_three_bg', 'assets/images/level-3-bg.png');
+    this.load.audio('game-music', ['assets/audio/game-bg-music.ogg']);
+    this.load.audio('game_over_sound', ['assets/audio/gameover.wav']);
+    this.load.audio('win-sound', ['assets/audio/win.wav'])
   }
 
   create() {
