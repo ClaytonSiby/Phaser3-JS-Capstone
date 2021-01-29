@@ -1,12 +1,11 @@
 import PlayerScene from './PlayerScene';
+
 const DataTransfere = require('../helpers/DataTransfere');
 
 class GameOverScene extends PlayerScene {
   constructor() {
     super('GameOverScene');
   }
-
-  preload() {}
 
   create() {
     this.add.text(410, 300, 'Game Over', {

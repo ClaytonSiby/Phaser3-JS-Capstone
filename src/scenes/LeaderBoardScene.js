@@ -10,8 +10,8 @@ class LeaderBoardScene extends PlayerScene {
   }
 
   create() {
-    this._bgMusic = this.sound.add('bg-music', { loop: true });
-    this._bgMusic.play();
+    this.bgMusic = this.sound.add('bg-music', { loop: true });
+    this.bgMusic.play();
 
     let lineHeight = 180;
     this.topPlayers = this.registry.get('score');
@@ -21,7 +21,7 @@ class LeaderBoardScene extends PlayerScene {
     });
 
     this.topPlayers.map(player => {
-      this.add.text(
+      const setText = this.add.text(
         400,
         (lineHeight += 40),
         `${player.user}: ${player.score}`,
@@ -29,11 +29,13 @@ class LeaderBoardScene extends PlayerScene {
           fill: '#34ebcc',
         },
       );
+
+      return setText;
     });
 
     this.add.text(330, 450, 'Click Anywhere to go back to Menu');
     this.input.on('pointerup', () => {
-      this._bgMusic.stop();
+      this.bgMusic.stop();
       this.scene.start('MenuScene');
     });
   }

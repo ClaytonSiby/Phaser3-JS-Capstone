@@ -16,7 +16,7 @@ const DataTransfere = {
 
     return result;
   },
-  
+
   getGameScore: async () => {
     const request = await axios.get(
       'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/hnjgOOmsqBtHHcnP73Il/scores/',
@@ -24,11 +24,11 @@ const DataTransfere = {
     ).then(res => res.data.result)
       .then(res => Helpers.structureScores(res))
       .catch(err => {
-        console.log(err.toJSON());
+        err.toJSON();
       });
 
     return request;
-  }
+  },
 };
 
 module.exports = DataTransfere;

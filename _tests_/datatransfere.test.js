@@ -1,20 +1,20 @@
-const axios = require('axios')
-const DataTransfere = require('../src/helpers/DataTransfere')
+const axios = require('axios');
+const DataTransfere = require('../src/helpers/DataTransfere');
 
-jest.mock('axios')
+jest.mock('axios');
 
 describe('Make a POST api action to update the leaderboard', () => {
   it('Posts the player name & score to the API', async () => {
     axios.post.mockResolvedValue({
       data: {
-        result: 'Leaderboard score updated successfully'
-      }
-    })
+        result: 'Leaderboard score updated successfully',
+      },
+    });
 
-    const response = await DataTransfere.postGameScore('Game', 40)
-    expect(response.result).toEqual('Leaderboard score updated successfully')
-  })
-})
+    const response = await DataTransfere.postGameScore('Game', 40);
+    expect(response.result).toEqual('Leaderboard score updated successfully');
+  });
+});
 
 describe('Make a GET api request to get game info', () => {
   it('Gets the game data as an array of objects', async () => {
@@ -23,17 +23,17 @@ describe('Make a GET api request to get game info', () => {
         result: [
           {
             user: 'Michael',
-            score: 60
+            score: 60,
           },
           {
             user: 'Yolanda',
-            score: 460
-          }
-        ]
-      }
-    })
+            score: 460,
+          },
+        ],
+      },
+    });
 
     const response = await DataTransfere.getGameScore();
     expect(response.result).toEqual(response.isArray);
-  })
-})
+  });
+});

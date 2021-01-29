@@ -50,8 +50,6 @@ class MenuScene extends PlayerScene {
       this.scene.start('LeaderBoardScene');
     });
   }
-
-  update() {}
 }
 
 export default MenuScene;

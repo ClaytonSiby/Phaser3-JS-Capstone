@@ -46,9 +46,7 @@ class Level1Scene extends PlayerScene {
       fontWeight: 900,
     });
 
-    bgCoordinates.map(bg_cord => {
-      this.add.image(bg_cord.x, bg_cord.y, 'level1_bg');
-    });
+    bgCoordinates.map(bgCoord => this.add.image(bgCoord.x, bgCoord.y, 'level1_bg'));
 
     this.gameState.character = this.physics.add
       .sprite(225, 440, 'character')
@@ -58,9 +56,9 @@ class Level1Scene extends PlayerScene {
     const platforms = this.physics.add.staticGroup();
     this.physics.add.collider(this.gameState.character, platforms);
 
-    platformPositions.map(plat => {
-      platforms.create(plat.x, plat.y, 'level_one_platform').setScale(0.7);
-    });
+    platformPositions.map(plat => platforms
+      .create(plat.x, plat.y, 'level_one_platform')
+      .setScale(0.7));
 
     this.gameState.character.setCollideWorldBounds(true);
     this.physics.add.collider(this.gameState.character, platforms);
@@ -122,7 +120,7 @@ class Level1Scene extends PlayerScene {
   }
 
   update() {
-    if (this.score == 3000) {
+    if (this.score === 3000) {
       this.startNextLevel('Level2Scene');
     }
 
