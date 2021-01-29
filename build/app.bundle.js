@@ -369,9 +369,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _DataTransfere = __webpack_require__(3);
+var _phaser = __webpack_require__(3);
 
-var _DataTransfere2 = _interopRequireDefault(_DataTransfere);
+var _phaser2 = _interopRequireDefault(_phaser);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -381,6 +381,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var DataTransfere = __webpack_require__(4);
 var Helpers = __webpack_require__(2);
 
 var PlayerScene = function (_Phaser$Scene) {
@@ -434,8 +435,8 @@ var PlayerScene = function (_Phaser$Scene) {
 
       this.form.style.display = 'block';
 
-      _DataTransfere2.default.getGameScore().then(function (result) {
-        return _this2.highScores = result;
+      DataTransfere.getGameScore().then(function (result) {
+        _this2.highScores = result;
       });
 
       this.add.text(300, 200, 'Please enter your name to get started');
@@ -488,7 +489,7 @@ var PlayerScene = function (_Phaser$Scene) {
   }]);
 
   return PlayerScene;
-}(Phaser.Scene);
+}(_phaser2.default.Scene);
 
 exports.default = PlayerScene;
 
@@ -501,7 +502,7 @@ exports.default = PlayerScene;
 
 var Helpers = {
   hideElement: function hideElement(element) {
-    return element.style.display = 'none';
+    element.style.display = 'none';
   },
   structureScores: function structureScores(arr) {
     return arr.sort(function (a, b) {
@@ -516,7 +517,8 @@ var Helpers = {
 module.exports = Helpers;
 
 /***/ }),
-/* 3 */
+/* 3 */,
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -577,7 +579,7 @@ var DataTransfere = {
               }).then(function (res) {
                 return Helpers.structureScores(res);
               }).catch(function (err) {
-                console.log(err.toJSON());
+                err.toJSON();
               });
 
             case 2:
@@ -603,7 +605,6 @@ var DataTransfere = {
 module.exports = DataTransfere;
 
 /***/ }),
-/* 4 */,
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1156,7 +1157,7 @@ module.exports = Cancel;
 
 __webpack_require__(14);
 
-var _phaser = __webpack_require__(4);
+var _phaser = __webpack_require__(3);
 
 var _phaser2 = _interopRequireDefault(_phaser);
 
@@ -1208,11 +1209,12 @@ var gameConfig = {
   scene: [_PlayerScene2.default, _MenuScene2.default, _LeaderBoardScene2.default, _Level1Scene2.default, _Level2Scene2.default, _Level3Scene2.default, _GameOverScene2.default]
 };
 
-new _phaser2.default.Game(gameConfig);
+// eslint-disable-next-line no-unused-vars
+var game = new _phaser2.default.Game(gameConfig);
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
@@ -1221,7 +1223,7 @@ new _phaser2.default.Game(gameConfig);
  * LICENSE file in the root directory of this source tree.
  */
 
-!(function(global) {
+var runtime = (function (exports) {
   "use strict";
 
   var Op = Object.prototype;
@@ -1232,22 +1234,23 @@ new _phaser2.default.Game(gameConfig);
   var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
   var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
 
-  var inModule = typeof module === "object";
-  var runtime = global.regeneratorRuntime;
-  if (runtime) {
-    if (inModule) {
-      // If regeneratorRuntime is defined globally and we're in a module,
-      // make the exports object identical to regeneratorRuntime.
-      module.exports = runtime;
-    }
-    // Don't bother evaluating the rest of this file if the runtime was
-    // already defined globally.
-    return;
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
   }
-
-  // Define the runtime globally (as expected by generated code) as either
-  // module.exports (if we're in a module) or a new, empty object.
-  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
 
   function wrap(innerFn, outerFn, self, tryLocsList) {
     // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
@@ -1261,7 +1264,7 @@ new _phaser2.default.Game(gameConfig);
 
     return generator;
   }
-  runtime.wrap = wrap;
+  exports.wrap = wrap;
 
   // Try/catch helper to minimize deoptimizations. Returns a completion
   // record like context.tryEntries[i].completion. This interface could
@@ -1319,20 +1322,23 @@ new _phaser2.default.Game(gameConfig);
     Generator.prototype = Object.create(IteratorPrototype);
   GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
   GeneratorFunctionPrototype.constructor = GeneratorFunction;
-  GeneratorFunctionPrototype[toStringTagSymbol] =
-    GeneratorFunction.displayName = "GeneratorFunction";
+  GeneratorFunction.displayName = define(
+    GeneratorFunctionPrototype,
+    toStringTagSymbol,
+    "GeneratorFunction"
+  );
 
   // Helper for defining the .next, .throw, and .return methods of the
   // Iterator interface in terms of a single ._invoke method.
   function defineIteratorMethods(prototype) {
     ["next", "throw", "return"].forEach(function(method) {
-      prototype[method] = function(arg) {
+      define(prototype, method, function(arg) {
         return this._invoke(method, arg);
-      };
+      });
     });
   }
 
-  runtime.isGeneratorFunction = function(genFun) {
+  exports.isGeneratorFunction = function(genFun) {
     var ctor = typeof genFun === "function" && genFun.constructor;
     return ctor
       ? ctor === GeneratorFunction ||
@@ -1342,14 +1348,12 @@ new _phaser2.default.Game(gameConfig);
       : false;
   };
 
-  runtime.mark = function(genFun) {
+  exports.mark = function(genFun) {
     if (Object.setPrototypeOf) {
       Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
     } else {
       genFun.__proto__ = GeneratorFunctionPrototype;
-      if (!(toStringTagSymbol in genFun)) {
-        genFun[toStringTagSymbol] = "GeneratorFunction";
-      }
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
     }
     genFun.prototype = Object.create(Gp);
     return genFun;
@@ -1359,11 +1363,11 @@ new _phaser2.default.Game(gameConfig);
   // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
   // `hasOwn.call(value, "__await")` to determine if the yielded value is
   // meant to be awaited.
-  runtime.awrap = function(arg) {
+  exports.awrap = function(arg) {
     return { __await: arg };
   };
 
-  function AsyncIterator(generator) {
+  function AsyncIterator(generator, PromiseImpl) {
     function invoke(method, arg, resolve, reject) {
       var record = tryCatch(generator[method], generator, arg);
       if (record.type === "throw") {
@@ -1374,32 +1378,24 @@ new _phaser2.default.Game(gameConfig);
         if (value &&
             typeof value === "object" &&
             hasOwn.call(value, "__await")) {
-          return Promise.resolve(value.__await).then(function(value) {
+          return PromiseImpl.resolve(value.__await).then(function(value) {
             invoke("next", value, resolve, reject);
           }, function(err) {
             invoke("throw", err, resolve, reject);
           });
         }
 
-        return Promise.resolve(value).then(function(unwrapped) {
+        return PromiseImpl.resolve(value).then(function(unwrapped) {
           // When a yielded Promise is resolved, its final value becomes
           // the .value of the Promise<{value,done}> result for the
-          // current iteration. If the Promise is rejected, however, the
-          // result for this iteration will be rejected with the same
-          // reason. Note that rejections of yielded Promises are not
-          // thrown back into the generator function, as is the case
-          // when an awaited Promise is rejected. This difference in
-          // behavior between yield and await is important, because it
-          // allows the consumer to decide what to do with the yielded
-          // rejection (swallow it and continue, manually .throw it back
-          // into the generator, abandon iteration, whatever). With
-          // await, by contrast, there is no opportunity to examine the
-          // rejection reason outside the generator function, so the
-          // only option is to throw it from the await expression, and
-          // let the generator function handle the exception.
+          // current iteration.
           result.value = unwrapped;
           resolve(result);
-        }, reject);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
       }
     }
 
@@ -1407,7 +1403,7 @@ new _phaser2.default.Game(gameConfig);
 
     function enqueue(method, arg) {
       function callInvokeWithMethodAndArg() {
-        return new Promise(function(resolve, reject) {
+        return new PromiseImpl(function(resolve, reject) {
           invoke(method, arg, resolve, reject);
         });
       }
@@ -1442,17 +1438,20 @@ new _phaser2.default.Game(gameConfig);
   AsyncIterator.prototype[asyncIteratorSymbol] = function () {
     return this;
   };
-  runtime.AsyncIterator = AsyncIterator;
+  exports.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
   // AsyncIterator objects; they just return a Promise for the value of
   // the final result produced by the iterator.
-  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
+  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
+
     var iter = new AsyncIterator(
-      wrap(innerFn, outerFn, self, tryLocsList)
+      wrap(innerFn, outerFn, self, tryLocsList),
+      PromiseImpl
     );
 
-    return runtime.isGeneratorFunction(outerFn)
+    return exports.isGeneratorFunction(outerFn)
       ? iter // If outerFn is a generator, return the full iterator.
       : iter.next().then(function(result) {
           return result.done ? result.value : iter.next();
@@ -1549,7 +1548,8 @@ new _phaser2.default.Game(gameConfig);
       context.delegate = null;
 
       if (context.method === "throw") {
-        if (delegate.iterator.return) {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
           // If the delegate iterator has a return method, give it a
           // chance to clean up.
           context.method = "return";
@@ -1623,7 +1623,7 @@ new _phaser2.default.Game(gameConfig);
   // unified ._invoke helper method.
   defineIteratorMethods(Gp);
 
-  Gp[toStringTagSymbol] = "Generator";
+  define(Gp, toStringTagSymbol, "Generator");
 
   // A Generator should always return itself as the iterator object when the
   // @@iterator function is called on it. Some browsers' implementations of the
@@ -1669,7 +1669,7 @@ new _phaser2.default.Game(gameConfig);
     this.reset(true);
   }
 
-  runtime.keys = function(object) {
+  exports.keys = function(object) {
     var keys = [];
     for (var key in object) {
       keys.push(key);
@@ -1730,7 +1730,7 @@ new _phaser2.default.Game(gameConfig);
     // Return an iterator with no values.
     return { next: doneResult };
   }
-  runtime.values = values;
+  exports.values = values;
 
   function doneResult() {
     return { value: undefined, done: true };
@@ -1935,12 +1935,35 @@ new _phaser2.default.Game(gameConfig);
       return ContinueSentinel;
     }
   };
-})(
-  // In sloppy mode, unbound `this` refers to the global object, fallback to
-  // Function constructor if we're in global strict mode. That is sadly a form
-  // of indirect eval which violates Content Security Policy.
-  (function() { return this })() || Function("return this")()
-);
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : {}
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
 
 
 /***/ }),
@@ -3039,9 +3062,6 @@ var MenuScene = function (_PlayerScene) {
         _this2.scene.start('LeaderBoardScene');
       });
     }
-  }, {
-    key: 'update',
-    value: function update() {}
   }]);
 
   return MenuScene;
@@ -3118,8 +3138,8 @@ var Level1Scene = function (_PlayerScene) {
         fontWeight: 900
       });
 
-      bgCoordinates.map(function (bg_cord) {
-        _this2.add.image(bg_cord.x, bg_cord.y, 'level1_bg');
+      bgCoordinates.map(function (bgCoord) {
+        return _this2.add.image(bgCoord.x, bgCoord.y, 'level1_bg');
       });
 
       this.gameState.character = this.physics.add.sprite(225, 440, 'character').setScale(0.6);
@@ -3129,7 +3149,7 @@ var Level1Scene = function (_PlayerScene) {
       this.physics.add.collider(this.gameState.character, platforms);
 
       platformPositions.map(function (plat) {
-        platforms.create(plat.x, plat.y, 'level_one_platform').setScale(0.7);
+        return platforms.create(plat.x, plat.y, 'level_one_platform').setScale(0.7);
       });
 
       this.gameState.character.setCollideWorldBounds(true);
@@ -3193,7 +3213,7 @@ var Level1Scene = function (_PlayerScene) {
   }, {
     key: 'update',
     value: function update() {
-      if (this.score == 3000) {
+      if (this.score === 3000) {
         this.startNextLevel('Level2Scene');
       }
 
@@ -3277,7 +3297,7 @@ var Level2Scene = function (_PlayerScene) {
       this.gameState.character.setCollideWorldBounds(true);
 
       platformPositions.map(function (plat) {
-        platforms.create(plat.x, plat.y, 'level_two_platform').setScale(0.9);
+        return platforms.create(plat.x, plat.y, 'level_two_platform').setScale(0.9);
       });
 
       var bugs = this.physics.add.group();
@@ -3338,7 +3358,7 @@ var Level2Scene = function (_PlayerScene) {
   }, {
     key: 'update',
     value: function update() {
-      if (this.score == 10000) {
+      if (this.score === 10000) {
         this.startNextLevel('Level3Scene');
       }
       this.movePlayer();
@@ -3417,7 +3437,7 @@ var Level3Scene = function (_PlayerScene) {
       this.gameState.character.setCollideWorldBounds(true);
 
       platformPositions.map(function (plat) {
-        platforms.create(plat.x, plat.y, 'level_three_platform');
+        return platforms.create(plat.x, plat.y, 'level_three_platform');
       });
 
       var bugs = this.physics.add.group();
@@ -3503,10 +3523,6 @@ var _PlayerScene2 = __webpack_require__(1);
 
 var _PlayerScene3 = _interopRequireDefault(_PlayerScene2);
 
-var _DataTransfere = __webpack_require__(3);
-
-var _DataTransfere2 = _interopRequireDefault(_DataTransfere);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3514,6 +3530,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DataTransfere = __webpack_require__(4);
 
 var GameOverScene = function (_PlayerScene) {
   _inherits(GameOverScene, _PlayerScene);
@@ -3525,9 +3543,6 @@ var GameOverScene = function (_PlayerScene) {
   }
 
   _createClass(GameOverScene, [{
-    key: 'preload',
-    value: function preload() {}
-  }, {
     key: 'create',
     value: function create() {
       var _this2 = this;
@@ -3544,7 +3559,7 @@ var GameOverScene = function (_PlayerScene) {
         fontWeight: 'bold'
       }).setInteractive();
 
-      _DataTransfere2.default.postGameScore(this.registry.get('user'), this.registry.get('playerScore')).then(function () {
+      DataTransfere.postGameScore(this.registry.get('user'), this.registry.get('playerScore')).then(function () {
         _this2.fetched = true;
       });
 
@@ -3576,10 +3591,6 @@ var _PlayerScene2 = __webpack_require__(1);
 
 var _PlayerScene3 = _interopRequireDefault(_PlayerScene2);
 
-var _DataTransfere = __webpack_require__(3);
-
-var _DataTransfere2 = _interopRequireDefault(_DataTransfere);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3607,8 +3618,8 @@ var LeaderBoardScene = function (_PlayerScene) {
     value: function create() {
       var _this2 = this;
 
-      this._bgMusic = this.sound.add('bg-music', { loop: true });
-      this._bgMusic.play();
+      this.bgMusic = this.sound.add('bg-music', { loop: true });
+      this.bgMusic.play();
 
       var lineHeight = 180;
       this.topPlayers = this.registry.get('score');
@@ -3618,14 +3629,16 @@ var LeaderBoardScene = function (_PlayerScene) {
       });
 
       this.topPlayers.map(function (player) {
-        _this2.add.text(400, lineHeight += 40, player.user + ': ' + player.score, {
+        var setText = _this2.add.text(400, lineHeight += 40, player.user + ': ' + player.score, {
           fill: '#34ebcc'
         });
+
+        return setText;
       });
 
       this.add.text(330, 450, 'Click Anywhere to go back to Menu');
       this.input.on('pointerup', function () {
-        _this2._bgMusic.stop();
+        _this2.bgMusic.stop();
         _this2.scene.start('MenuScene');
       });
     }
