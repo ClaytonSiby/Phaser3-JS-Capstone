@@ -1,4 +1,5 @@
-import DataTransfere from '../helpers/DataTransfere'
+import DataTransfere from '../helpers/DataTransfere';
+const Helpers = require('../helpers/utils');
 
 class PlayerScene extends Phaser.Scene {
   constructor (key) {
@@ -46,7 +47,7 @@ class PlayerScene extends Phaser.Scene {
     this.submitBtn.addEventListener('click', e => {
       e.preventDefault()
       const nameHolder = document.getElementById('nameHolder')
-      const validateForm = DataTransfere.formValidator
+      const validateForm = Helpers.formValidator
       if (validateForm(this.nameInput.value)) {
         this.gameState.player = this.nameInput.value
         this.registry.set('user', this.gameState.player)

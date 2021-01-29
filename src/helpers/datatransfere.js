@@ -1,4 +1,5 @@
 const axios = require('axios');
+const Helpers = require('./utils');
 
 const DataTransfere = (() => {
   const postGameScore = async (playerName, score) => {
@@ -16,14 +17,12 @@ const DataTransfere = (() => {
     return result;
   };
 
-  const structureScores = (arr) => arr.sort((a, b) => b.score - a.score).splice(0, 5);
-
   const getGameScore = async () => {
     const request = await axios.get(
       'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/hnjgOOmsqBtHHcnP73Il/scores/',
       {},
     ).then(res => res.data.result)
-      .then(res => structureScores(res))
+      .then(res => Helpers.structureScores(res))
       .catch(err => {
         console.log(err.toJSON());
       });
@@ -31,9 +30,7 @@ const DataTransfere = (() => {
     return request;
   };
 
-  const formValidator = (value) => (value.length > 2);
-
-  return { postGameScore, getGameScore, formValidator };
+  return { postGameScore, getGameScore };
 })();
 
 export default DataTransfere;
