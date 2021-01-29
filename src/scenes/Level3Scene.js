@@ -10,14 +10,6 @@ class Level3Scene extends PlayerScene {
   }
 
   create () {
-    const levelAlert = this.add.text(370, 300, "You're now playing level 3", { fill: '#f00' });
-
-    setTimeout(() => {
-      levelAlert.show();
-    }, 500)
-
-    clearTimeout(levelAlert);
-
     const platformPositions = [
       { x: 92, y: 580 },
       { x: 272, y: 580 },

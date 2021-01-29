@@ -20,7 +20,7 @@ class GameOverScene extends PlayerScene {
       { fill: '#0f0' },
     );
 
-    this.backToMenuBtn = this.add.text(400, 470, 'Go Back to Menu', {
+    this.backToMenuBtn = this.add.text(400, 470, 'Play The Game Again', {
       fill: '#34ebcc',
       font: 30,
       fontWeight: 'bold',
@@ -34,7 +34,7 @@ class GameOverScene extends PlayerScene {
     });
 
     this.backToMenuBtn.on('pointerup', () => {
-      this.scene.start('MenuScene');
+      window.location.reload();
     });
   }
 }

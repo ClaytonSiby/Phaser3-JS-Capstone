@@ -13,17 +13,6 @@ class Level2Scene extends PlayerScene {
   create () {
     this.physics.resume()
 
-    const levelAlert = this.add.text(370, 300, "You're now playing level 3", {
-      fill: '#f00'
-    })
-    levelAlert.style.display = 'none'
-
-    setTimeout(() => {
-      levelAlert.style.display = 'block'
-    }, 500)
-
-    clearTimeout(levelAlert)
-
     const platformPositions = [
       { x: 92, y: 580 },
       { x: 272, y: 580 },

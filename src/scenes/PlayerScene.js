@@ -26,6 +26,7 @@ class PlayerScene extends Phaser.Scene {
   }
 
   create () {
+    this.form = document.querySelector('form');
     this.nameInput = document.querySelector('#nameInput')
     this.submitBtn = document.querySelector('#submitBtn')
     this.background = this.add.image(0, 0, 'player-scene-bg').setOrigin(0, 0)
@@ -36,6 +37,8 @@ class PlayerScene extends Phaser.Scene {
       fontFamily: 'Times New Roman',
       fontWeight: 'bold'
     })
+
+    this.form.style.display = 'block';
 
     DataTransfere.getGameScore().then(result => (this.highScores = result))
 
@@ -49,6 +52,7 @@ class PlayerScene extends Phaser.Scene {
         this.registry.set('user', this.gameState.player)
         this.registry.set('score', this.highScores)
         nameHolder.textContent = `Enjoy the Game ${this.gameState.player}!`
+        this.form.style.display = 'none';
         this.scene.start('MenuScene')
       } else {
         nameHolder.textContent = 'Please provide your name to proceed!'
