@@ -1,8 +1,8 @@
 const axios = require('axios');
 const Helpers = require('./utils');
 
-const DataTransfere = (() => {
-  const postGameScore = async (playerName, score) => {
+const DataTransfere = {
+  postGameScore: async (playerName, score) => {
     const result = await axios
       .post(
         'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/hnjgOOmsqBtHHcnP73Il/scores/',
@@ -15,9 +15,9 @@ const DataTransfere = (() => {
       .catch(error => error.response.data);
 
     return result;
-  };
-
-  const getGameScore = async () => {
+  },
+  
+  getGameScore: async () => {
     const request = await axios.get(
       'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/hnjgOOmsqBtHHcnP73Il/scores/',
       {},
@@ -28,9 +28,7 @@ const DataTransfere = (() => {
       });
 
     return request;
-  };
+  }
+};
 
-  return { postGameScore, getGameScore };
-})();
-
-export default DataTransfere;
+module.exports = DataTransfere;

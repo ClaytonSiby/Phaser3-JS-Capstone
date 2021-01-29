@@ -1,4 +1,4 @@
-import DataTransfere from '../helpers/DataTransfere';
+const DataTransfere = require('../helpers/DataTransfere');
 const Helpers = require('../helpers/utils');
 
 class PlayerScene extends Phaser.Scene {

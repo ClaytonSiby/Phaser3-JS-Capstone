@@ -5,7 +5,7 @@ webpackJsonp([0],[
 "use strict";
 
 
-var bind = __webpack_require__(4);
+var bind = __webpack_require__(5);
 
 /*global toString:true*/
 
@@ -369,7 +369,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _DataTransfere = __webpack_require__(2);
+var _DataTransfere = __webpack_require__(3);
 
 var _DataTransfere2 = _interopRequireDefault(_DataTransfere);
 
@@ -380,6 +380,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Helpers = __webpack_require__(2);
 
 var PlayerScene = function (_Phaser$Scene) {
   _inherits(PlayerScene, _Phaser$Scene);
@@ -418,6 +420,7 @@ var PlayerScene = function (_Phaser$Scene) {
     value: function create() {
       var _this2 = this;
 
+      this.form = document.querySelector('form');
       this.nameInput = document.querySelector('#nameInput');
       this.submitBtn = document.querySelector('#submitBtn');
       this.background = this.add.image(0, 0, 'player-scene-bg').setOrigin(0, 0);
@@ -429,6 +432,8 @@ var PlayerScene = function (_Phaser$Scene) {
         fontWeight: 'bold'
       });
 
+      this.form.style.display = 'block';
+
       _DataTransfere2.default.getGameScore().then(function (result) {
         return _this2.highScores = result;
       });
@@ -437,12 +442,13 @@ var PlayerScene = function (_Phaser$Scene) {
       this.submitBtn.addEventListener('click', function (e) {
         e.preventDefault();
         var nameHolder = document.getElementById('nameHolder');
-        var validateForm = _DataTransfere2.default.formValidator;
+        var validateForm = Helpers.formValidator;
         if (validateForm(_this2.nameInput.value)) {
           _this2.gameState.player = _this2.nameInput.value;
           _this2.registry.set('user', _this2.gameState.player);
           _this2.registry.set('score', _this2.highScores);
           nameHolder.textContent = 'Enjoy the Game ' + _this2.gameState.player + '!';
+          _this2.form.style.display = 'none';
           _this2.scene.start('MenuScene');
         } else {
           nameHolder.textContent = 'Please provide your name to proceed!';
@@ -460,8 +466,25 @@ var PlayerScene = function (_Phaser$Scene) {
       this.scene.start(nextLevel);
     }
   }, {
-    key: 'gameOver',
-    value: function gameOver() {}
+    key: 'movePlayer',
+    value: function movePlayer() {
+      var gameState = this.gameState;
+
+      if (gameState.cursors.right.isDown) {
+        gameState.character.setVelocityX(200);
+        gameState.character.anims.play('run', true);
+
+        gameState.character.flipX = false;
+      } else if (gameState.cursors.left.isDown) {
+        gameState.character.setVelocityX(-200);
+        gameState.character.anims.play('run', true);
+
+        gameState.character.flipX = true;
+      } else {
+        gameState.character.setVelocityX(0);
+        gameState.character.anims.play('idle', true);
+      }
+    }
   }]);
 
   return PlayerScene;
@@ -476,16 +499,36 @@ exports.default = PlayerScene;
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var Helpers = {
+  hideElement: function hideElement(element) {
+    return element.style.display = 'none';
+  },
+  structureScores: function structureScores(arr) {
+    return arr.sort(function (a, b) {
+      return b.score - a.score;
+    }).splice(0, 5);
+  },
+  formValidator: function formValidator(value) {
+    return value.length > 2;
+  }
+};
+
+module.exports = Helpers;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var axios = __webpack_require__(15);
+var Helpers = __webpack_require__(2);
 
-var DataTransfere = function () {
-  var postGameScore = function () {
+var DataTransfere = {
+  postGameScore: function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(playerName, score) {
       var result;
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -493,7 +536,7 @@ var DataTransfere = function () {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios.post('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/i8yXbyJPWP1XTvLWs9Vr/scores/', {
+              return axios.post('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/hnjgOOmsqBtHHcnP73Il/scores/', {
                 user: playerName,
                 score: score
               }).then(function (res) {
@@ -514,18 +557,14 @@ var DataTransfere = function () {
       }, _callee, undefined);
     }));
 
-    return function postGameScore(_x, _x2) {
+    function postGameScore(_x, _x2) {
       return _ref.apply(this, arguments);
-    };
-  }();
+    }
 
-  var structureScores = function structureScores(arr) {
-    return arr.sort(function (a, b) {
-      return b.score - a.score;
-    }).splice(0, 5);
-  };
+    return postGameScore;
+  }(),
 
-  var getGameScore = function () {
+  getGameScore: function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       var request;
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -533,10 +572,10 @@ var DataTransfere = function () {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return axios.get('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/i8yXbyJPWP1XTvLWs9Vr/scores/', {}).then(function (res) {
+              return axios.get('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/hnjgOOmsqBtHHcnP73Il/scores/', {}).then(function (res) {
                 return res.data.result;
               }).then(function (res) {
-                return structureScores(res);
+                return Helpers.structureScores(res);
               }).catch(function (err) {
                 console.log(err.toJSON());
               });
@@ -553,23 +592,19 @@ var DataTransfere = function () {
       }, _callee2, undefined);
     }));
 
-    return function getGameScore() {
+    function getGameScore() {
       return _ref2.apply(this, arguments);
-    };
-  }();
+    }
 
-  var formValidator = function formValidator(value) {
-    return value.length > 2;
-  };
+    return getGameScore;
+  }()
+};
 
-  return { postGameScore: postGameScore, getGameScore: getGameScore, formValidator: formValidator };
-}();
-
-exports.default = DataTransfere;
+module.exports = DataTransfere;
 
 /***/ }),
-/* 3 */,
-/* 4 */
+/* 4 */,
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -587,7 +622,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -664,7 +699,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -676,7 +711,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -699,10 +734,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(8);
+    adapter = __webpack_require__(9);
   } else if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(8);
+    adapter = __webpack_require__(9);
   }
   return adapter;
 }
@@ -782,7 +817,7 @@ module.exports = defaults;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -791,11 +826,11 @@ module.exports = defaults;
 var utils = __webpack_require__(0);
 var settle = __webpack_require__(23);
 var cookies = __webpack_require__(25);
-var buildURL = __webpack_require__(5);
+var buildURL = __webpack_require__(6);
 var buildFullPath = __webpack_require__(26);
 var parseHeaders = __webpack_require__(29);
 var isURLSameOrigin = __webpack_require__(30);
-var createError = __webpack_require__(9);
+var createError = __webpack_require__(10);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -968,7 +1003,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -993,7 +1028,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1087,7 +1122,7 @@ module.exports = function mergeConfig(config1, config2) {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1113,26 +1148,6 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var Helpers = function () {
-  var hideElement = function hideElement(element) {
-    element.style.display = 'none';
-  };
-
-  return { hideElement: hideElement };
-}();
-
-exports.default = Helpers;
-
-/***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1141,7 +1156,7 @@ exports.default = Helpers;
 
 __webpack_require__(14);
 
-var _phaser = __webpack_require__(3);
+var _phaser = __webpack_require__(4);
 
 var _phaser2 = _interopRequireDefault(_phaser);
 
@@ -1942,10 +1957,10 @@ module.exports = __webpack_require__(16);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(4);
+var bind = __webpack_require__(5);
 var Axios = __webpack_require__(17);
-var mergeConfig = __webpack_require__(10);
-var defaults = __webpack_require__(7);
+var mergeConfig = __webpack_require__(11);
+var defaults = __webpack_require__(8);
 
 /**
  * Create an instance of Axios
@@ -1978,9 +1993,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(11);
+axios.Cancel = __webpack_require__(12);
 axios.CancelToken = __webpack_require__(31);
-axios.isCancel = __webpack_require__(6);
+axios.isCancel = __webpack_require__(7);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -2005,10 +2020,10 @@ module.exports.default = axios;
 
 
 var utils = __webpack_require__(0);
-var buildURL = __webpack_require__(5);
+var buildURL = __webpack_require__(6);
 var InterceptorManager = __webpack_require__(18);
 var dispatchRequest = __webpack_require__(19);
-var mergeConfig = __webpack_require__(10);
+var mergeConfig = __webpack_require__(11);
 
 /**
  * Create a new instance of Axios
@@ -2167,8 +2182,8 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(20);
-var isCancel = __webpack_require__(6);
-var defaults = __webpack_require__(7);
+var isCancel = __webpack_require__(7);
+var defaults = __webpack_require__(8);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -2487,7 +2502,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(9);
+var createError = __webpack_require__(10);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -2832,7 +2847,7 @@ module.exports = (
 "use strict";
 
 
-var Cancel = __webpack_require__(11);
+var Cancel = __webpack_require__(12);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -2958,7 +2973,7 @@ var _PlayerScene2 = __webpack_require__(1);
 
 var _PlayerScene3 = _interopRequireDefault(_PlayerScene2);
 
-var _utils = __webpack_require__(12);
+var _utils = __webpack_require__(2);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -3051,7 +3066,7 @@ var _PlayerScene2 = __webpack_require__(1);
 
 var _PlayerScene3 = _interopRequireDefault(_PlayerScene2);
 
-var _utils = __webpack_require__(12);
+var _utils = __webpack_require__(2);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -3178,26 +3193,11 @@ var Level1Scene = function (_PlayerScene) {
   }, {
     key: 'update',
     value: function update() {
-      if (this.score == 300) {
+      if (this.score == 3000) {
         this.startNextLevel('Level2Scene');
       }
 
-      var gameState = this.gameState;
-
-      if (gameState.cursors.right.isDown) {
-        gameState.character.setVelocityX(200);
-        gameState.character.anims.play('run', true);
-
-        gameState.character.flipX = false;
-      } else if (gameState.cursors.left.isDown) {
-        gameState.character.setVelocityX(-200);
-        gameState.character.anims.play('run', true);
-
-        gameState.character.flipX = true;
-      } else {
-        gameState.character.setVelocityX(0);
-        gameState.character.anims.play('idle', true);
-      }
+      this.movePlayer();
     }
   }]);
 
@@ -3222,10 +3222,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _PlayerScene2 = __webpack_require__(1);
 
 var _PlayerScene3 = _interopRequireDefault(_PlayerScene2);
-
-var _DataTransfere = __webpack_require__(2);
-
-var _DataTransfere2 = _interopRequireDefault(_DataTransfere);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3255,15 +3251,6 @@ var Level2Scene = function (_PlayerScene) {
       var _this2 = this;
 
       this.physics.resume();
-
-      var levelAlert = this.add.text(370, 300, "You're now playing level 3", { fill: '#f00' });
-      levelAlert.style.display = 'none';
-
-      setTimeout(function () {
-        levelAlert.style.display = 'block';
-      }, 500);
-
-      clearTimeout(levelAlert);
 
       var platformPositions = [{ x: 92, y: 580 }, { x: 272, y: 580 }, { x: 452, y: 580 }, { x: 632, y: 580 }, { x: 812, y: 580 }, { x: 992, y: 580 }];
 
@@ -3354,22 +3341,7 @@ var Level2Scene = function (_PlayerScene) {
       if (this.score == 10000) {
         this.startNextLevel('Level3Scene');
       }
-      var gameState = this.gameState;
-
-      if (gameState.cursors.right.isDown) {
-        gameState.character.setVelocityX(200);
-        gameState.character.anims.play('run', true);
-
-        gameState.character.flipX = false;
-      } else if (gameState.cursors.left.isDown) {
-        gameState.character.setVelocityX(-200);
-        gameState.character.anims.play('run', true);
-
-        gameState.character.flipX = true;
-      } else {
-        gameState.character.setVelocityX(0);
-        gameState.character.anims.play('idle', true);
-      }
+      this.movePlayer();
     }
   }]);
 
@@ -3394,10 +3366,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _PlayerScene2 = __webpack_require__(1);
 
 var _PlayerScene3 = _interopRequireDefault(_PlayerScene2);
-
-var _DataTransfere = __webpack_require__(2);
-
-var _DataTransfere2 = _interopRequireDefault(_DataTransfere);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3425,14 +3393,6 @@ var Level3Scene = function (_PlayerScene) {
     key: 'create',
     value: function create() {
       var _this2 = this;
-
-      var levelAlert = this.add.text(370, 300, "You're now playing level 3", { fill: '#f00' });
-
-      setTimeout(function () {
-        levelAlert.show();
-      }, 500);
-
-      clearTimeout(levelAlert);
 
       var platformPositions = [{ x: 92, y: 580 }, { x: 272, y: 580 }, { x: 452, y: 580 }, { x: 632, y: 580 }, { x: 812, y: 580 }, { x: 992, y: 580 }];
 
@@ -3517,22 +3477,7 @@ var Level3Scene = function (_PlayerScene) {
   }, {
     key: 'update',
     value: function update() {
-      var gameState = this.gameState;
-
-      if (gameState.cursors.right.isDown) {
-        gameState.character.setVelocityX(200);
-        gameState.character.anims.play('run', true);
-
-        gameState.character.flipX = false;
-      } else if (gameState.cursors.left.isDown) {
-        gameState.character.setVelocityX(-200);
-        gameState.character.anims.play('run', true);
-
-        gameState.character.flipX = true;
-      } else {
-        gameState.character.setVelocityX(0);
-        gameState.character.anims.play('idle', true);
-      }
+      this.movePlayer();
     }
   }]);
 
@@ -3558,7 +3503,7 @@ var _PlayerScene2 = __webpack_require__(1);
 
 var _PlayerScene3 = _interopRequireDefault(_PlayerScene2);
 
-var _DataTransfere = __webpack_require__(2);
+var _DataTransfere = __webpack_require__(3);
 
 var _DataTransfere2 = _interopRequireDefault(_DataTransfere);
 
@@ -3593,7 +3538,7 @@ var GameOverScene = function (_PlayerScene) {
 
       this.add.text(380, 340, 'Your score is: ' + this.registry.get('playerScore').toString(), { fill: '#0f0' });
 
-      this.backToMenuBtn = this.add.text(400, 470, 'Go Back to Menu', {
+      this.backToMenuBtn = this.add.text(400, 470, 'Play The Game Again', {
         fill: '#34ebcc',
         font: 30,
         fontWeight: 'bold'
@@ -3604,7 +3549,7 @@ var GameOverScene = function (_PlayerScene) {
       });
 
       this.backToMenuBtn.on('pointerup', function () {
-        _this2.scene.start('MenuScene');
+        window.location.reload();
       });
     }
   }]);
@@ -3631,7 +3576,7 @@ var _PlayerScene2 = __webpack_require__(1);
 
 var _PlayerScene3 = _interopRequireDefault(_PlayerScene2);
 
-var _DataTransfere = __webpack_require__(2);
+var _DataTransfere = __webpack_require__(3);
 
 var _DataTransfere2 = _interopRequireDefault(_DataTransfere);
 

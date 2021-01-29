@@ -1,5 +1,4 @@
 import PlayerScene from './PlayerScene';
-import DataTransfere from '../helpers/DataTransfere';
 
 class LeaderBoardScene extends PlayerScene {
   constructor() {
