@@ -538,7 +538,7 @@ var DataTransfere = {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios.post('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/hnjgOOmsqBtHHcnP73Il/scores/', {
+              return axios.post('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/gZ2LeAR8PEPald2qJWzE/scores/', {
                 user: playerName,
                 score: score
               }).then(function (res) {
@@ -574,7 +574,7 @@ var DataTransfere = {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return axios.get('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/hnjgOOmsqBtHHcnP73Il/scores/', {}).then(function (res) {
+              return axios.get('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/gZ2LeAR8PEPald2qJWzE/scores/', {}).then(function (res) {
                 return res.data.result;
               }).then(function (res) {
                 return Helpers.structureScores(res);
@@ -1210,6 +1210,7 @@ var gameConfig = {
 };
 
 // eslint-disable-next-line no-unused-vars
+// eslint-disable import/no-unresolved
 var game = new _phaser2.default.Game(gameConfig);
 
 /***/ }),
