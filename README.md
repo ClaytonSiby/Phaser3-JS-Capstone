@@ -26,14 +26,17 @@ This game consists of three levels all of which you need to dodge all the fallin
 - StyleLint
 
 **Instructions**
-
-The player can:
+## How to play:
+![keyboard](assets/images/keyboard.png)
 - Move left & right to avoid bumping into the falling bugs.
 * The score increases by 10 each time a bug hits the ground.
 
 ## Live demo link
 
 [The Bug Dodger](https://bug-dodger-app.netlify.app/)
+
+## Video Presentation
+[View Video](https://bug-dodger-app.netlify.app/)
 
 ## How to use this app locally?
 
