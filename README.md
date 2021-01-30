@@ -36,7 +36,7 @@ This game consists of three levels all of which you need to dodge all the fallin
 [The Bug Dodger](https://bug-dodger-app.netlify.app/)
 
 ## Video Presentation
-[View Video](https://bug-dodger-app.netlify.app/)
+[View Video](https://www.loom.com/share/61d43b003dca4846a72e19ca3c22c59c)
 
 ## How to use this app locally?
 
