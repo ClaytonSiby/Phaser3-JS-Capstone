@@ -1,3 +1,4 @@
+// eslint-disable import/no-unresolved
 import 'regenerator-runtime/runtime';
 import Phaser from 'phaser';
 import PlayerScene from './scenes/PlayerScene';

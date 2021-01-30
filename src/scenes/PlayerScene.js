@@ -1,3 +1,4 @@
+// eslint-disable import/no-unresolved
 import Phaser from 'phaser';
 
 const DataTransfere = require('../helpers/DataTransfere');

@@ -31,7 +31,7 @@ As someone who is new to the Phaser framework & game development, it took me mor
 - Stage 3: Game Design & Research => ( 1 day )
 - Stage 4: Gather assets for the game ( spritesheets, audio, images etc ) => ( 1 day )
 - Stage 5: Build the core Game Scenes => ( 2 days )
-- Stage 6: Add Scoring System & API calls => ( 1 day )
+- Stage 6: Add Scoring System, API calls and Testing => ( 1 day )
 - Stage 7: Readme.md & gdd.md documentation & project deployment ( half a day)
 
 # Acknowledgements

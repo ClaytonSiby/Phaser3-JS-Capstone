@@ -1,3 +1,4 @@
+// eslint-disable import/no-unresolved
 const axios = require('axios');
 const Helpers = require('./utils');
 

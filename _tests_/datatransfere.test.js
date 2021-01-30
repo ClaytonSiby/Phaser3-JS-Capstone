@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-unresolved
+
 const axios = require('axios');
 const DataTransfere = require('../src/helpers/DataTransfere');
 
