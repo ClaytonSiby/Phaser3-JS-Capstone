@@ -16,5 +16,17 @@
         "dist/**",
         "**/reset*.css",
         "**/bootstrap*.css"
-    ]
+    ],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        }
+    }
 }

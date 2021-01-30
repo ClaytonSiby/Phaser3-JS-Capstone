@@ -1,4 +1,3 @@
-// eslint-disable import/no-unresolved
 import PlayerScene from './PlayerScene';
 
 const DataTransfere = require('../helpers/DataTransfere');
