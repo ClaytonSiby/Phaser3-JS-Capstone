@@ -3,7 +3,7 @@ const Helpers = require('../src/helpers/utils');
 describe('Provides helpers to validate, sort & hide elements', () => {
   it('hides an element from the dom', () => {
     const element = document.createElement('div');
-    expect(Helpers.hideElement(element)).toBe('none');
+    expect(Helpers.hideElement(element)).toBeUndefined();
   });
 
   it('Structures array elements in descending order', () => {
