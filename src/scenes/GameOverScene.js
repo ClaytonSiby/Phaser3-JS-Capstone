@@ -1,6 +1,6 @@
 import PlayerScene from './PlayerScene';
 
-import DataTransfere from '../helpers/DataTransfere.js';
+import DataTransfere from '../helpers/DataTransfere';
 
 class GameOverScene extends PlayerScene {
   constructor() {

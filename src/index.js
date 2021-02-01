@@ -40,4 +40,3 @@ const gameConfig = {
 
   return game;
 })(gameConfig);
-
