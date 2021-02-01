@@ -35,5 +35,10 @@ const gameConfig = {
   ],
 };
 
-const game = new Phaser.Game(gameConfig);
-game;
+function executeGame(config) {
+  const game = new Phaser.Game(config);
+
+  return game;
+}
+
+executeGame(gameConfig);
