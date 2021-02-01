@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import DataTransfere from '../helpers/dataTransfere';
+import DataTransfere from '../helpers/data';
 import Helpers from '../helpers/utils';
 
 class PlayerScene extends Phaser.Scene {

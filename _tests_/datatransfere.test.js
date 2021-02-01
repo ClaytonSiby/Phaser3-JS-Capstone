@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import DataTransfere from '../src/helpers/dataTransfere';
+import DataTransfere from '../src/helpers/data';
 
 jest.mock('axios');
 
