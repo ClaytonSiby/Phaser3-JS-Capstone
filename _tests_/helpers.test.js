@@ -1,4 +1,4 @@
-const Helpers = require('../src/helpers/utils');
+import Helpers from '../src/helpers/utils';
 
 describe('Provides helpers to validate, sort & hide elements', () => {
   it('hides an element from the dom', () => {

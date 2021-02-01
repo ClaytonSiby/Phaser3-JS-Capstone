@@ -16,7 +16,7 @@
     "babel-core": "6",
     "babel-eslint": "10.1.x",
     "babel-loader": "^7.0.0",
-    "babel-preset-env": "^1.7.0",
+    "babel-preset-env": "^1.0.0",
     "copy-webpack-plugin": "^4.5.1",
     "eslint": "6.8.x",
     "eslint-config-airbnb-base": "14.1.x",
@@ -33,6 +33,7 @@
     "axios": "^0.21.1",
     "lodash": "^4.17.20",
     "phaser": "^3.0.0",
-    "regenerator-runtime": "^0.13.7"
+    "regenerator-runtime": "^0.13.7",
+    "@babel/preset-env": "^7.12.1"
   }
 }

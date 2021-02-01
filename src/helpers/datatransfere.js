@@ -1,5 +1,5 @@
-const axios = require('axios');
-const Helpers = require('./utils');
+import axios from 'axios';
+import Helpers from './utils';
 
 const DataTransfere = {
   postGameScore: async (playerName, score) => {
@@ -31,4 +31,4 @@ const DataTransfere = {
   },
 };
 
-module.exports = DataTransfere;
+export default DataTransfere;

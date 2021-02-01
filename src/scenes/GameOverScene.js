@@ -1,6 +1,6 @@
 import PlayerScene from './PlayerScene';
 
-const DataTransfere = require('../helpers/DataTransfere');
+import DataTransfere from '../helpers/DataTransfere';
 
 class GameOverScene extends PlayerScene {
   constructor() {

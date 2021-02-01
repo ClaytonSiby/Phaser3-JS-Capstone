@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
-const DataTransfere = require('../helpers/DataTransfere');
-const Helpers = require('../helpers/utils');
+import DataTransfere from '../helpers/DataTransfere';
+import Helpers from '../helpers/utils';
 
 class PlayerScene extends Phaser.Scene {
   constructor(key) {

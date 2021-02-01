@@ -36,4 +36,4 @@ const gameConfig = {
 };
 
 const game = new Phaser.Game(gameConfig);
-game();
+game;
