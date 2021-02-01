@@ -5,7 +5,7 @@ const DataTransfere = (() => {
   const postGameScore = async (playerName, score) => {
     const result = await axios
       .post(
-        'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/gZ2LeAR8PEPald2qJWzE/scores/',
+        'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/b4ZLMZxn9DJ0nhe2oyGy/scores/',
         {
           user: playerName,
           score,
@@ -20,7 +20,7 @@ const DataTransfere = (() => {
   const getGameScore = async () => {
     const request = await axios
       .get(
-        'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/gZ2LeAR8PEPald2qJWzE/scores/',
+        'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/b4ZLMZxn9DJ0nhe2oyGy/scores/',
         {},
       )
       .then(res => res.data.result)
