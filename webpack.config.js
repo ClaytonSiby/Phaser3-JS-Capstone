@@ -28,6 +28,14 @@ module.exports = {
     ],
   },
 
+  resolve: {
+    modules: [
+      path.resolve(__dirname, 'src/'),
+      'node_modules',
+      path.resolve('node_modules'),
+    ],
+  },
+
   plugins: [
     new CopyWebpackPlugin([
       {

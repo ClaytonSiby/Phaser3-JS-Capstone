@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { getGameScore } from '../helpers/DataTransfere';
+import DataTransfere from '../helpers/DataTransfere';
 import Helpers from '../helpers/utils';
 
 class PlayerScene extends Phaser.Scene {
@@ -43,7 +43,7 @@ class PlayerScene extends Phaser.Scene {
 
     this.form.style.display = 'block';
 
-    getGameScore().then(result => { (this.highScores = result); });
+    DataTransfere.getGameScore().then(result => { (this.highScores = result); });
 
     this.add.text(300, 200, 'Please enter your name to get started');
     this.submitBtn.addEventListener('click', e => {
