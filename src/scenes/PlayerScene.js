@@ -43,7 +43,7 @@ class PlayerScene extends Phaser.Scene {
 
     this.form.style.display = 'block';
 
-    DataTransfere.getGameScore().then( async result => { await (this.highScores = result); });
+    DataTransfere.getGameScore().then(async result => { await (this.highScores = result); });
 
     this.add.text(300, 200, 'Please enter your name to get started');
     this.submitBtn.addEventListener('click', e => {
