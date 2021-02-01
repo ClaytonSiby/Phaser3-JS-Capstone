@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import DataTransfere from '../src/helpers/DataTransfere';
+import { postGameScore, getGameScore } from '../src/helpers/DataTransfere';
 
 jest.mock('axios');
 
@@ -12,7 +12,7 @@ describe('Make a POST api action to update the leaderboard', () => {
       },
     });
 
-    const response = await DataTransfere.postGameScore('Game', 40);
+    const response = await postGameScore('Game', 40);
     expect(response.result).toEqual('Leaderboard score updated successfully');
   });
 });
@@ -34,7 +34,7 @@ describe('Make a GET api request to get game info', () => {
       },
     });
 
-    const response = await DataTransfere.getGameScore();
+    const response = await getGameScore();
     expect(response.result).toEqual(response.isArray);
   });
 });

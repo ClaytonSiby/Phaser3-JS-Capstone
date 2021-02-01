@@ -1,6 +1,6 @@
 import PlayerScene from './PlayerScene';
 
-import DataTransfere from '../helpers/DataTransfere';
+import { postGameScore } from '../helpers/DataTransfere';
 
 class GameOverScene extends PlayerScene {
   constructor() {
@@ -25,7 +25,7 @@ class GameOverScene extends PlayerScene {
       fontWeight: 'bold',
     }).setInteractive();
 
-    DataTransfere.postGameScore(
+    postGameScore(
       this.registry.get('user'),
       this.registry.get('playerScore'),
     ).then(() => {
