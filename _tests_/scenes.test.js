@@ -1,4 +1,3 @@
-
 import PlayerScene from '../src/scenes/player';
 import MenuScene from '../src/scenes/menu';
 import LeaderBoardScene from '../src/scenes/leaderboard';
@@ -14,16 +13,20 @@ beforeEach(() => {
 });
 
 describe('Check Data flow between classes through class inheritance', () => {
-  it('Expect all scenes to inherit from the PlayerScene', () => {
-    const scenesArray = [
-      MenuScene,
-      LeaderBoardScene,
-      Level1Scene,
-      Level2Scene,
-      Level3Scene,
-      GameOverScene,
-    ];
+  const scenesArray = [
+    MenuScene,
+    LeaderBoardScene,
+    Level1Scene,
+    Level2Scene,
+    Level3Scene,
+    GameOverScene,
+  ];
 
+  it('Expect all scenes to inherit from the PlayerScene', () => {
     scenesArray.every(scene => expect(scene.prototype instanceof PlayerScene).toBeTruthy());
+  });
+
+  it('Does not expect any of the Scenes to not inherit from the PlayerScene', () => {
+    scenesArray.every(scene => expect(scene.prototype instanceof PlayerScene).not.toBeFalsy());
   });
 });
