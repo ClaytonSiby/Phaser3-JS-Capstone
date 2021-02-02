@@ -1,13 +1,13 @@
 // eslint-disable import/no-unresolved
 import 'regenerator-runtime/runtime';
 import Phaser from 'phaser';
-import PlayerScene from './scenes/PlayerScene';
-import MenuScene from './scenes/MenuScene';
-import Level1Scene from './scenes/Level1Scene';
-import Level2Scene from './scenes/Level2Scene';
-import Level3Scene from './scenes/Level3Scene';
-import GameOverScene from './scenes/GameOverScene';
-import LeaderBoardScene from './scenes/LeaderBoardScene';
+import PlayerScene from './scenes/player';
+import MenuScene from './scenes/menu';
+import Level1Scene from './scenes/level-one';
+import Level2Scene from './scenes/level-two';
+import Level3Scene from './scenes/level-three';
+import GameOverScene from './scenes/game-over';
+import LeaderBoardScene from './scenes/leaderboard';
 
 const gameConfig = {
   type: Phaser.AUTO,

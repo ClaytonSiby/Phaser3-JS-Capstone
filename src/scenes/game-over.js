@@ -1,4 +1,4 @@
-import PlayerScene from './PlayerScene';
+import PlayerScene from './player';
 
 import DataTransfere from '../helpers/data';
 

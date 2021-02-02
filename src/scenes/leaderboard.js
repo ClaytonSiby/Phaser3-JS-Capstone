@@ -1,4 +1,4 @@
-import PlayerScene from './PlayerScene';
+import PlayerScene from './player';
 
 class LeaderBoardScene extends PlayerScene {
   constructor() {

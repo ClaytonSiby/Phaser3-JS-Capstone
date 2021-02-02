@@ -1,4 +1,4 @@
-import PlayerScene from './PlayerScene';
+import PlayerScene from './player';
 import Helpers from '../helpers/utils';
 
 class MenuScene extends PlayerScene {
