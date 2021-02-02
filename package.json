@@ -6,12 +6,38 @@
   "author": "Clayton",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "test": "jest --watchAll",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --open"
+  },
+  "jest": {
+    "setupFiles": ["jest-canvas-mock"]
+  },
   "devDependencies": {
     "babel-core": "6",
+    "babel-eslint": "10.1.x",
     "babel-loader": "^7.0.0",
-    "webpack": "^3.0.0"
+    "babel-preset-env": "^1.0.0",
+    "copy-webpack-plugin": "^4.5.1",
+    "eslint": "6.8.x",
+    "eslint-config-airbnb-base": "14.1.x",
+    "eslint-plugin-import": "2.20.x",
+    "jest": "^26.6.3",
+    "jest-canvas-mock": "^2.3.0",
+    "stylelint": "13.3.x",
+    "stylelint-config-standard": "20.0.x",
+    "stylelint-csstree-validator": "^1.9.0",
+    "stylelint-scss": "3.17.x",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.0.0"
   },
   "dependencies": {
-    "phaser": "^3.0.0"
+    "@babel/preset-env": "^7.12.1",
+    "axios": "^0.21.1",
+    "lodash": "^4.17.20",
+    "phaser": "^3.0.0",
+    "regenerator-runtime": "^0.13.7"
   }
 }
