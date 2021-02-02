@@ -357,7 +357,172 @@ module.exports = {
 
 
 /***/ }),
-/* 1 */,
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _phaser = __webpack_require__(3);
+
+var _phaser2 = _interopRequireDefault(_phaser);
+
+var _data = __webpack_require__(4);
+
+var _data2 = _interopRequireDefault(_data);
+
+var _utils = __webpack_require__(2);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PlayerScene = function (_Phaser$Scene) {
+  _inherits(PlayerScene, _Phaser$Scene);
+
+  function PlayerScene(key) {
+    _classCallCheck(this, PlayerScene);
+
+    var _this = _possibleConstructorReturn(this, (PlayerScene.__proto__ || Object.getPrototypeOf(PlayerScene)).call(this, key));
+
+    _this.gameState = { player: '' };
+    _this.score = 0;
+    return _this;
+  }
+
+  _createClass(PlayerScene, [{
+    key: 'preload',
+    value: function preload() {
+      this.load.image('red_bug', 'assets/images/bug_3.png');
+      this.load.image('green_bug', 'assets/images/bug_2.png');
+      this.load.image('yellow_bug', 'assets/images/bug_1.png');
+      this.load.spritesheet('character', 'assets/images/player.png', {
+        frameWidth: 72,
+        frameHeight: 90
+      });
+      this.load.image('player-scene-bg', 'assets/images/start-page.png');
+      this.load.image('menu-bg', 'assets/images/menu-bg.png');
+      this.load.image('level1_bg', 'assets/images/level1_bg.png');
+      this.load.image('level_two_bg', 'assets/images/bg-image.png');
+      this.load.image('level_three_bg', 'assets/images/level-3-bg.png');
+      this.load.audio('game-music', ['assets/audio/game-bg-music.ogg']);
+      this.load.audio('game_over_sound', ['assets/audio/gameover.wav']);
+      this.load.audio('win-sound', ['assets/audio/win.wav']);
+    }
+  }, {
+    key: 'create',
+    value: function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _this2 = this;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.form = document.querySelector('form');
+                this.nameInput = document.querySelector('#nameInput');
+                this.submitBtn = document.querySelector('#submitBtn');
+                this.background = this.add.image(0, 0, 'player-scene-bg').setOrigin(0, 0);
+                this.background.displayWidth = this.sys.canvas.width;
+                this.background.displayHeight = this.sys.canvas.height;
+                this.add.text(395, 100, 'Bug Dodger', {
+                  fontSize: 30,
+                  fontFamily: 'Times New Roman',
+                  fontWeight: 'bold'
+                });
+
+                this.form.style.display = 'block';
+
+                _context.next = 10;
+                return _data2.default.getGameScore().then(function (result) {
+                  _this2.highScores = result;
+                });
+
+              case 10:
+
+                this.add.text(300, 200, 'Please enter your name to get started');
+                this.submitBtn.addEventListener('click', function (e) {
+                  e.preventDefault();
+                  var nameHolder = document.getElementById('nameHolder');
+                  var validateForm = _utils2.default.formValidator;
+                  if (validateForm(_this2.nameInput.value)) {
+                    _this2.gameState.player = _this2.nameInput.value;
+                    _this2.registry.set('user', _this2.gameState.player);
+                    _this2.registry.set('score', _this2.highScores);
+                    nameHolder.textContent = 'Enjoy the Game ' + _this2.gameState.player + '!';
+                    _this2.form.style.display = 'none';
+                    _this2.scene.start('MenuScene');
+                  } else {
+                    nameHolder.textContent = 'Please provide your name to proceed!';
+                  }
+                });
+
+              case 12:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function create() {
+        return _ref.apply(this, arguments);
+      }
+
+      return create;
+    }()
+  }, {
+    key: 'startNextLevel',
+    value: function startNextLevel(nextLevel) {
+      this.winSound.play();
+      this.bugGeneratorLoop.destroy();
+      this.gameOnSound.stop();
+      this.physics.pause();
+
+      this.scene.start(nextLevel);
+    }
+  }, {
+    key: 'movePlayer',
+    value: function movePlayer() {
+      var gameState = this.gameState;
+
+      if (gameState.cursors.right.isDown) {
+        gameState.character.setVelocityX(200);
+        gameState.character.anims.play('run', true);
+
+        gameState.character.flipX = false;
+      } else if (gameState.cursors.left.isDown) {
+        gameState.character.setVelocityX(-200);
+        gameState.character.anims.play('run', true);
+
+        gameState.character.flipX = true;
+      } else {
+        gameState.character.setVelocityX(0);
+        gameState.character.anims.play('idle', true);
+      }
+    }
+  }]);
+
+  return PlayerScene;
+}(_phaser2.default.Scene);
+
+exports.default = PlayerScene;
+
+/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1039,31 +1204,31 @@ var _phaser = __webpack_require__(3);
 
 var _phaser2 = _interopRequireDefault(_phaser);
 
-var _player = __webpack_require__(47);
+var _player = __webpack_require__(1);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _menu = __webpack_require__(46);
+var _menu = __webpack_require__(34);
 
 var _menu2 = _interopRequireDefault(_menu);
 
-var _levelOne = __webpack_require__(43);
+var _levelOne = __webpack_require__(35);
 
 var _levelOne2 = _interopRequireDefault(_levelOne);
 
-var _levelTwo = __webpack_require__(44);
+var _levelTwo = __webpack_require__(36);
 
 var _levelTwo2 = _interopRequireDefault(_levelTwo);
 
-var _levelThree = __webpack_require__(45);
+var _levelThree = __webpack_require__(37);
 
 var _levelThree2 = _interopRequireDefault(_levelThree);
 
-var _gameOver = __webpack_require__(41);
+var _gameOver = __webpack_require__(38);
 
 var _gameOver2 = _interopRequireDefault(_gameOver);
 
-var _leaderboard = __webpack_require__(42);
+var _leaderboard = __webpack_require__(39);
 
 var _leaderboard2 = _interopRequireDefault(_leaderboard);
 
@@ -2862,14 +3027,7 @@ module.exports = function isAxiosError(payload) {
 
 
 /***/ }),
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2881,13 +3039,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _player = __webpack_require__(47);
+var _player = __webpack_require__(1);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _data = __webpack_require__(4);
+var _utils = __webpack_require__(2);
 
-var _data2 = _interopRequireDefault(_data);
+var _utils2 = _interopRequireDefault(_utils);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2897,124 +3055,69 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var GameOverScene = function (_PlayerScene) {
-  _inherits(GameOverScene, _PlayerScene);
+var MenuScene = function (_PlayerScene) {
+  _inherits(MenuScene, _PlayerScene);
 
-  function GameOverScene() {
-    _classCallCheck(this, GameOverScene);
+  function MenuScene() {
+    _classCallCheck(this, MenuScene);
 
-    return _possibleConstructorReturn(this, (GameOverScene.__proto__ || Object.getPrototypeOf(GameOverScene)).call(this, 'GameOverScene'));
+    return _possibleConstructorReturn(this, (MenuScene.__proto__ || Object.getPrototypeOf(MenuScene)).call(this, 'MenuScene'));
   }
 
-  _createClass(GameOverScene, [{
-    key: 'create',
-    value: function create() {
-      var _this2 = this;
-
-      this.add.text(410, 300, 'Game Over', {
-        fill: '#0f0'
-      });
-
-      this.add.text(380, 340, 'Your score is: ' + this.registry.get('playerScore').toString(), { fill: '#0f0' });
-
-      this.backToMenuBtn = this.add.text(400, 470, 'Play The Game Again', {
-        fill: '#34ebcc',
-        font: 30,
-        fontWeight: 'bold'
-      }).setInteractive();
-
-      _data2.default.postGameScore(this.registry.get('user'), this.registry.get('playerScore')).then(function () {
-        _this2.fetched = true;
-      });
-
-      this.backToMenuBtn.on('pointerup', function () {
-        window.location.reload();
-      });
-    }
-  }]);
-
-  return GameOverScene;
-}(_player2.default);
-
-exports.default = GameOverScene;
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _player = __webpack_require__(47);
-
-var _player2 = _interopRequireDefault(_player);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var LeaderBoardScene = function (_PlayerScene) {
-  _inherits(LeaderBoardScene, _PlayerScene);
-
-  function LeaderBoardScene() {
-    _classCallCheck(this, LeaderBoardScene);
-
-    return _possibleConstructorReturn(this, (LeaderBoardScene.__proto__ || Object.getPrototypeOf(LeaderBoardScene)).call(this, 'LeaderBoardScene'));
-  }
-
-  _createClass(LeaderBoardScene, [{
+  _createClass(MenuScene, [{
     key: 'preload',
     value: function preload() {
-      this.load.audio('bg-music', 'assets/audio/menu.wav');
+      this.load.audio('menu-bg-music', 'assets/audio/menu.wav');
     }
   }, {
     key: 'create',
     value: function create() {
       var _this2 = this;
 
-      this.bgMusic = this.sound.add('bg-music', { loop: true });
-      this.bgMusic.play();
+      this.background = this.add.image(0, 0, 'menu-bg').setOrigin(0, 0);
+      this.backgroundMusic = this.sound.add('menu-bg-music', { loop: true });
+      this.background.displayWidth = this.sys.canvas.width;
+      this.background.displayHeight = this.sys.canvas.height;
+      this.backgroundMusic.play();
 
-      var lineHeight = 180;
-      this.topPlayers = this.registry.get('score');
-      this.add.text(350, 150, 'These are the Top Players: ', {
-        fill: '#0f0',
-        fontWeight: 900
+      var nameInput = document.getElementById('nameInput');
+      var submitBtn = document.getElementById('submitBtn');
+      _utils2.default.hideElement(nameInput);
+      _utils2.default.hideElement(submitBtn);
+
+      this.playBtn = this.add.text(400, 250, 'Play Game', {
+        fill: '#34ebcc',
+        fontSize: 30,
+        fontWeight: 900,
+        cursor: 'pointer'
+      }).setInteractive();
+
+      this.viewLeaderBoard = this.add.text(340, 310, 'View Leaderboard', {
+        fill: '#34ebcc',
+        fontSize: 30,
+        fontWeight: 900,
+        cursor: 'pointer'
+      }).setInteractive();
+
+      this.playBtn.on('pointerup', function () {
+        _this2.backgroundMusic.stop();
+        _this2.scene.start('Level1Scene');
       });
 
-      this.topPlayers.map(function (player) {
-        var setText = _this2.add.text(400, lineHeight += 40, player.user + ': ' + player.score, {
-          fill: '#34ebcc'
-        });
-
-        return setText;
-      });
-
-      this.add.text(330, 450, 'Click Anywhere to go back to Menu');
-      this.input.on('pointerup', function () {
-        _this2.bgMusic.stop();
-        _this2.scene.start('MenuScene');
+      this.viewLeaderBoard.on('pointerup', function () {
+        _this2.backgroundMusic.stop();
+        _this2.scene.start('LeaderBoardScene');
       });
     }
   }]);
 
-  return LeaderBoardScene;
+  return MenuScene;
 }(_player2.default);
 
-exports.default = LeaderBoardScene;
+exports.default = MenuScene;
 
 /***/ }),
-/* 43 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3026,7 +3129,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _player = __webpack_require__(47);
+var _player = __webpack_require__(1);
 
 var _player2 = _interopRequireDefault(_player);
 
@@ -3171,7 +3274,7 @@ var Level1Scene = function (_PlayerScene) {
 exports.default = Level1Scene;
 
 /***/ }),
-/* 44 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3183,7 +3286,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _player = __webpack_require__(47);
+var _player = __webpack_require__(1);
 
 var _player2 = _interopRequireDefault(_player);
 
@@ -3315,7 +3418,7 @@ var Level2Scene = function (_PlayerScene) {
 exports.default = Level2Scene;
 
 /***/ }),
-/* 45 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3327,7 +3430,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _player = __webpack_require__(47);
+var _player = __webpack_require__(1);
 
 var _player2 = _interopRequireDefault(_player);
 
@@ -3451,7 +3554,7 @@ var Level3Scene = function (_PlayerScene) {
 exports.default = Level3Scene;
 
 /***/ }),
-/* 46 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3463,13 +3566,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _player = __webpack_require__(47);
+var _player = __webpack_require__(1);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _utils = __webpack_require__(2);
+var _data = __webpack_require__(4);
 
-var _utils2 = _interopRequireDefault(_utils);
+var _data2 = _interopRequireDefault(_data);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3479,232 +3582,121 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MenuScene = function (_PlayerScene) {
-  _inherits(MenuScene, _PlayerScene);
+var GameOverScene = function (_PlayerScene) {
+  _inherits(GameOverScene, _PlayerScene);
 
-  function MenuScene() {
-    _classCallCheck(this, MenuScene);
+  function GameOverScene() {
+    _classCallCheck(this, GameOverScene);
 
-    return _possibleConstructorReturn(this, (MenuScene.__proto__ || Object.getPrototypeOf(MenuScene)).call(this, 'MenuScene'));
+    return _possibleConstructorReturn(this, (GameOverScene.__proto__ || Object.getPrototypeOf(GameOverScene)).call(this, 'GameOverScene'));
   }
 
-  _createClass(MenuScene, [{
+  _createClass(GameOverScene, [{
+    key: 'create',
+    value: function create() {
+      var _this2 = this;
+
+      this.add.text(410, 300, 'Game Over', {
+        fill: '#0f0'
+      });
+
+      this.add.text(380, 340, 'Your score is: ' + this.registry.get('playerScore').toString(), { fill: '#0f0' });
+
+      this.backToMenuBtn = this.add.text(400, 470, 'Play The Game Again', {
+        fill: '#34ebcc',
+        font: 30,
+        fontWeight: 'bold'
+      }).setInteractive();
+
+      _data2.default.postGameScore(this.registry.get('user'), this.registry.get('playerScore')).then(function () {
+        _this2.fetched = true;
+      });
+
+      this.backToMenuBtn.on('pointerup', function () {
+        window.location.reload();
+      });
+    }
+  }]);
+
+  return GameOverScene;
+}(_player2.default);
+
+exports.default = GameOverScene;
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _player = __webpack_require__(1);
+
+var _player2 = _interopRequireDefault(_player);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LeaderBoardScene = function (_PlayerScene) {
+  _inherits(LeaderBoardScene, _PlayerScene);
+
+  function LeaderBoardScene() {
+    _classCallCheck(this, LeaderBoardScene);
+
+    return _possibleConstructorReturn(this, (LeaderBoardScene.__proto__ || Object.getPrototypeOf(LeaderBoardScene)).call(this, 'LeaderBoardScene'));
+  }
+
+  _createClass(LeaderBoardScene, [{
     key: 'preload',
     value: function preload() {
-      this.load.audio('menu-bg-music', 'assets/audio/menu.wav');
+      this.load.audio('bg-music', 'assets/audio/menu.wav');
     }
   }, {
     key: 'create',
     value: function create() {
       var _this2 = this;
 
-      this.background = this.add.image(0, 0, 'menu-bg').setOrigin(0, 0);
-      this.backgroundMusic = this.sound.add('menu-bg-music', { loop: true });
-      this.background.displayWidth = this.sys.canvas.width;
-      this.background.displayHeight = this.sys.canvas.height;
-      this.backgroundMusic.play();
+      this.bgMusic = this.sound.add('bg-music', { loop: true });
+      this.bgMusic.play();
 
-      var nameInput = document.getElementById('nameInput');
-      var submitBtn = document.getElementById('submitBtn');
-      _utils2.default.hideElement(nameInput);
-      _utils2.default.hideElement(submitBtn);
-
-      this.playBtn = this.add.text(400, 250, 'Play Game', {
-        fill: '#34ebcc',
-        fontSize: 30,
-        fontWeight: 900,
-        cursor: 'pointer'
-      }).setInteractive();
-
-      this.viewLeaderBoard = this.add.text(340, 310, 'View Leaderboard', {
-        fill: '#34ebcc',
-        fontSize: 30,
-        fontWeight: 900,
-        cursor: 'pointer'
-      }).setInteractive();
-
-      this.playBtn.on('pointerup', function () {
-        _this2.backgroundMusic.stop();
-        _this2.scene.start('Level1Scene');
+      var lineHeight = 180;
+      this.topPlayers = this.registry.get('score');
+      this.add.text(350, 150, 'These are the Top Players: ', {
+        fill: '#0f0',
+        fontWeight: 900
       });
 
-      this.viewLeaderBoard.on('pointerup', function () {
-        _this2.backgroundMusic.stop();
-        _this2.scene.start('LeaderBoardScene');
+      this.topPlayers.map(function (player) {
+        var setText = _this2.add.text(400, lineHeight += 40, player.user + ': ' + player.score, {
+          fill: '#34ebcc'
+        });
+
+        return setText;
+      });
+
+      this.add.text(330, 450, 'Click Anywhere to go back to Menu');
+      this.input.on('pointerup', function () {
+        _this2.bgMusic.stop();
+        _this2.scene.start('MenuScene');
       });
     }
   }]);
 
-  return MenuScene;
+  return LeaderBoardScene;
 }(_player2.default);
 
-exports.default = MenuScene;
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _phaser = __webpack_require__(3);
-
-var _phaser2 = _interopRequireDefault(_phaser);
-
-var _data = __webpack_require__(4);
-
-var _data2 = _interopRequireDefault(_data);
-
-var _utils = __webpack_require__(2);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var PlayerScene = function (_Phaser$Scene) {
-  _inherits(PlayerScene, _Phaser$Scene);
-
-  function PlayerScene(key) {
-    _classCallCheck(this, PlayerScene);
-
-    var _this = _possibleConstructorReturn(this, (PlayerScene.__proto__ || Object.getPrototypeOf(PlayerScene)).call(this, key));
-
-    _this.gameState = { player: '' };
-    _this.score = 0;
-    return _this;
-  }
-
-  _createClass(PlayerScene, [{
-    key: 'preload',
-    value: function preload() {
-      this.load.image('red_bug', 'assets/images/bug_3.png');
-      this.load.image('green_bug', 'assets/images/bug_2.png');
-      this.load.image('yellow_bug', 'assets/images/bug_1.png');
-      this.load.spritesheet('character', 'assets/images/player.png', {
-        frameWidth: 72,
-        frameHeight: 90
-      });
-      this.load.image('player-scene-bg', 'assets/images/start-page.png');
-      this.load.image('menu-bg', 'assets/images/menu-bg.png');
-      this.load.image('level1_bg', 'assets/images/level1_bg.png');
-      this.load.image('level_two_bg', 'assets/images/bg-image.png');
-      this.load.image('level_three_bg', 'assets/images/level-3-bg.png');
-      this.load.audio('game-music', ['assets/audio/game-bg-music.ogg']);
-      this.load.audio('game_over_sound', ['assets/audio/gameover.wav']);
-      this.load.audio('win-sound', ['assets/audio/win.wav']);
-    }
-  }, {
-    key: 'create',
-    value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _this2 = this;
-
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                this.form = document.querySelector('form');
-                this.nameInput = document.querySelector('#nameInput');
-                this.submitBtn = document.querySelector('#submitBtn');
-                this.background = this.add.image(0, 0, 'player-scene-bg').setOrigin(0, 0);
-                this.background.displayWidth = this.sys.canvas.width;
-                this.background.displayHeight = this.sys.canvas.height;
-                this.add.text(395, 100, 'Bug Dodger', {
-                  fontSize: 30,
-                  fontFamily: 'Times New Roman',
-                  fontWeight: 'bold'
-                });
-
-                this.form.style.display = 'block';
-
-                _context.next = 10;
-                return _data2.default.getGameScore().then(function (result) {
-                  _this2.highScores = result;
-                });
-
-              case 10:
-
-                this.add.text(300, 200, 'Please enter your name to get started');
-                this.submitBtn.addEventListener('click', function (e) {
-                  e.preventDefault();
-                  var nameHolder = document.getElementById('nameHolder');
-                  var validateForm = _utils2.default.formValidator;
-                  if (validateForm(_this2.nameInput.value)) {
-                    _this2.gameState.player = _this2.nameInput.value;
-                    _this2.registry.set('user', _this2.gameState.player);
-                    _this2.registry.set('score', _this2.highScores);
-                    nameHolder.textContent = 'Enjoy the Game ' + _this2.gameState.player + '!';
-                    _this2.form.style.display = 'none';
-                    _this2.scene.start('MenuScene');
-                  } else {
-                    nameHolder.textContent = 'Please provide your name to proceed!';
-                  }
-                });
-
-              case 12:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function create() {
-        return _ref.apply(this, arguments);
-      }
-
-      return create;
-    }()
-  }, {
-    key: 'startNextLevel',
-    value: function startNextLevel(nextLevel) {
-      this.winSound.play();
-      this.bugGeneratorLoop.destroy();
-      this.gameOnSound.stop();
-      this.physics.pause();
-
-      this.scene.start(nextLevel);
-    }
-  }, {
-    key: 'movePlayer',
-    value: function movePlayer() {
-      var gameState = this.gameState;
-
-      if (gameState.cursors.right.isDown) {
-        gameState.character.setVelocityX(200);
-        gameState.character.anims.play('run', true);
-
-        gameState.character.flipX = false;
-      } else if (gameState.cursors.left.isDown) {
-        gameState.character.setVelocityX(-200);
-        gameState.character.anims.play('run', true);
-
-        gameState.character.flipX = true;
-      } else {
-        gameState.character.setVelocityX(0);
-        gameState.character.anims.play('idle', true);
-      }
-    }
-  }]);
-
-  return PlayerScene;
-}(_phaser2.default.Scene);
-
-exports.default = PlayerScene;
+exports.default = LeaderBoardScene;
 
 /***/ })
 ],[13]);
